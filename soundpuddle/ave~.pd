@@ -1,0 +1,9 @@
+#N canvas 514 164 265 209 10;
+#X obj 39 56 inlet~;
+#X obj 138 55 inlet~;
+#X obj 39 110 expr~ ($v1+$v2)/2;
+#X obj 40 165 outlet~;
+#X text 13 20 A simple average \, at the signal rate.;
+#X connect 0 0 2 0;
+#X connect 1 0 2 1;
+#X connect 2 0 3 0;
