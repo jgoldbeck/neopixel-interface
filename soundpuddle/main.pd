@@ -1,4 +1,4 @@
-#N canvas 730 428 284 246 10;
+#N canvas 723 406 284 246 10;
 #X obj 36 35 adc~;
 #X obj 35 86 ave~;
 #X obj 34 134 sendFFT;
@@ -6,10 +6,12 @@
 -1;
 #X text 96 112 click to start/stop;
 #X obj -44 33 loadbang;
-#X msg -44 63 \; pd dsp 1;
+#X msg -44 115 \; pd dsp 1;
+#X obj -39 69 delay 100;
 #X connect 0 0 1 0;
 #X connect 0 1 1 1;
 #X connect 1 0 2 0;
 #X connect 3 0 2 1;
-#X connect 5 0 3 0;
-#X connect 5 0 6 0;
+#X connect 5 0 7 0;
+#X connect 7 0 6 0;
+#X connect 7 0 3 0;

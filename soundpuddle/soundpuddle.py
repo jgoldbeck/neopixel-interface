@@ -19,7 +19,7 @@ class SoundPuddle():
 
     def __init__(self):
         self.nleds = 160
-        self.sensitivity = 900.
+        self.sensitivity = 1.
         self.OSCserver = liblo.Server(8666)
         self.OSCserver.add_method(None, None, self.handleOSC)
         self.buff = bytearray(self.nleds*3)
@@ -64,9 +64,9 @@ class SoundPuddle():
         for i in range(8):
             for j in range(20):
                 if self.spokes[i][j]==1:
-                    self.buff[(i*20+j)*3:(i*20+j)*3+2] = [0xFF,0xFF,0xFF]
+                    self.buff[(i*20+j)*3:(i*20+j)*3+3] = [0xFF,0xFF,0xFF]
                 else:
-                    self.buff[(i*20+j)*3:(i*20+j)*3+2] = [0x80,0x80,0x80]
+                    self.buff[(i*20+j)*3:(i*20+j)*3+3] = [0x80,0x80,0x80]
 
     def writeBuffer(self):
         spidev.write(self.buff+self.zeros)
