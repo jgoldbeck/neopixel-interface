@@ -50,7 +50,7 @@ class SoundPuddle():
     def shiftSpokes(self):
         for i in range(4):
             self.buff[(60*2*i):(60*2*i+60)] = self.launchpad[2*i] + self.buff[(60*2*i):(60*2*i+57)]
-            self.buff[(60*(2*i+1)):(60*(2*i+1)+60)] = self.buff[(60*(2*i+1)):(60*(2*i+1)+57)] + self.launchpad[2*i+1]
+            self.buff[(60*(2*i+1)):(60*(2*i+1)+60)] = self.buff[(60*(2*i+1)+3):(60*(2*i+1)+60)] + self.launchpad[2*i+1]
 
     def writeBuffer(self):
         spidev.write(self.buff+self.zeros)
