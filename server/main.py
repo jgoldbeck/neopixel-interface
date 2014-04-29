@@ -10,7 +10,7 @@ import time
 global reset
 reset = False
 
-# leds = file('/dev/spidev0.0', 'wb')
+leds = file('/dev/spidev0.0', 'wb')
 nleds = 160
 nzeros = 5
 global buff
@@ -91,13 +91,12 @@ def computeBuffer(redness_array):
     redness_array[0] = (redness_array[0] + 1) % 128
     writeBuffer(buff) # sync
     # threads.deferToThread(writeBuffer, buff) # async
-    # leds.write(buff+zeros)
-    # leds.flush()
+
 
 def writeBuffer(buff):
-    print (buff[0], buff[1], buff[2] )
-    # leds.write(buff+zeros)
-    # leds.flush()
+    # print (buff[0], buff[1], buff[2] )
+    leds.write(buff+zeros)
+    leds.flush()
 
 
 task.LoopingCall(computeBuffer, [0]).start(.03)
