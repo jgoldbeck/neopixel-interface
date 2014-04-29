@@ -29,24 +29,23 @@ class SoundPuddle():
         self.spokes = []
         for i in range(8):
             self.spokes.append([-1 for j in range(20)])
-        self.launchpad = [[0x80,0x80,0x80]]*8
+        self.launchpad = [bytearray([0x80,0x80,0x80])]*8
 
     def colorMap(self,value):
         diff = value - self.sensitivity
         if diff<1.:
-            return [0x80,0xFF,0x80] # red
+            return bytearray([0x80,0xFF,0x80]) # red
         elif diff<5.:
-            return [0xFF,0x80,0x80] # green
+            return bytearray([0xFF,0x80,0x80]) # green
         else:
-            return [0x80,0x80,0xFF] # blue
+            return bytearray([0x80,0x80,0xFF]) # blue
 
     def handleOSC(self, pathstr, arg, typestr, server, usrData):
         for i in range(8):
             if arg[i] >= self.sensitivity:
-                print 'Launching: ', i
                 self.launchpad[i] = self.colorMap(arg[i])
             else:
-                self.launchpad[i] = [0x80,0x80,0x80]
+                self.launchpad[i] = bytearray([0x80,0x80,0x80])
 
     def shiftSpokes(self):
         for i in range(4):
@@ -62,6 +61,7 @@ class SoundPuddle():
             self.OSCserver.recv(1)
             self.shiftSpokes()
             self.writeBuffer()
+            time.sleep(0.03)
 
 if __name__=='__main__':
     sp = SoundPuddle()
