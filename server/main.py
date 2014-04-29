@@ -61,8 +61,7 @@ class UDPReceiverApplication(object):
         else:
             change = - 1
         blueness = (blueness + change) % 128
-        for i in range(19999999):
-            print 'a'
+
 
 def get_path(message):
     return str(message).split(' ')[0]
