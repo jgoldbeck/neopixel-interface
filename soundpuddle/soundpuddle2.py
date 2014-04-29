@@ -29,44 +29,24 @@ class SoundPuddle():
         self.spokes = []
         for i in range(8):
             self.spokes.append([-1 for j in range(20)])
-        self.launchpad = [0]*8
-        self.colorTable = {#i:[ g  , r  , b  ]
-                           -1:[0x80,0x80,0x80], # black
-                            0:[0xFF,0x80,0x80], # green
-                            1:[0x80,0xFF,0x80], # red
-                            2:[0x80,0x80,0xFF], # blue
-                            3:[0xFF,0xFF,0x80], # yellow
-                            4:[0xFF,0x80,0xFF], # teal
-                            5:[0x80,0xFF,0xFF] # violet
-                            }
-
-        self.colorSet = [   [0x80,0x80,0x80], # black
-                            [0xFF,0x80,0x80], # green
-                            [0x80,0xFF,0x80], # red
-                            [0x80,0x80,0xFF], # blue
-                            [0xFF,0xFF,0x80], # yellow
-                            [0xFF,0x80,0xFF], # teal
-                            [0x80,0xFF,0xFF]] # violet
+        self.launchpad = [[0x80,0x80,0x80]]*8
 
     def handleOSC(self, pathstr, arg, typestr, server, usrData):
-        for i in range(len(freqBins)):
-            total = 0.
-            for j in freqBins[i]:
-                total += arg[j]
-            #print total
-            if total >= self.sensitivity:
-                #print 'Launching: ', i
-                self.launchpad[i] = 1
+        for i in range(8):
+            if arg[i] >= self.sensitivity:
+                print 'Launching: ', i
+                self.launchpad[i] = self.colorMap(arg[i])
             else:
-                self.launchpad[i] = 0
+                self.launchpad[i] = [0x80,0x80,0x80]
 
-    def launch(self, spokeIndex, colorIndex):
-        self.spokes[spokeIndex]
-       
+    def colorMap(self,value):
+        diff = value - self.sensitivity
+        if diff<
+
     def shiftSpokes(self):
         for i in range(4):
-            self.spokes[2*i] = [self.launchpad[2*i]] + self.spokes[2*i][:-1]
-            self.spokes[2*i+1] = self.spokes[2*i+1][1:] + [self.launchpad[2*i+1]]
+            self.buff[(60*2*i):(60*2*i+60)] = self.launchpad[2*i] + self.buff[(60*2*i):(60*2*i+57)]
+            self.buff[(60*(2*i+1)):(60*(2*i+1)+60)] = self.buff[(60*(2*i+1)):(60*(2*i+1)+57)] + self.launchpad[2*i+1]
 
     def prepareBuffer(self):
         for i in range(8):
