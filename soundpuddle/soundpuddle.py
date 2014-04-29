@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import liblo, time
+import liblo, time, random
 import numpy as np
 from pyo import midiToHz as m2h
 
@@ -40,15 +40,22 @@ class SoundPuddle():
                             5:[0x80,0xFF,0xFF] # violet
                             }
 
+        self.colorSet = [   [0x80,0x80,0x80], # black
+                            [0xFF,0x80,0x80], # green
+                            [0x80,0xFF,0x80], # red
+                            [0x80,0x80,0xFF], # blue
+                            [0xFF,0xFF,0x80], # yellow
+                            [0xFF,0x80,0xFF], # teal
+                            [0x80,0xFF,0xFF]] # violet
 
     def handleOSC(self, pathstr, arg, typestr, server, usrData):
         for i in range(len(freqBins)):
             total = 0.
             for j in freqBins[i]:
                 total += arg[j]
-            print total
+            #print total
             if total >= self.sensitivity:
-                print 'Launching: ', i
+                #print 'Launching: ', i
                 self.launchpad[i] = 1
             else:
                 self.launchpad[i] = 0
@@ -64,6 +71,7 @@ class SoundPuddle():
         for i in range(8):
             for j in range(20):
                 if self.spokes[i][j]==1:
+                    #self.buff[(i*20+j)*3:(i*20+j)*3+3] = random.choice(self.colorSet)
                     self.buff[(i*20+j)*3:(i*20+j)*3+3] = [0xFF,0xFF,0xFF]
                 else:
                     self.buff[(i*20+j)*3:(i*20+j)*3+3] = [0x80,0x80,0x80]
@@ -74,7 +82,7 @@ class SoundPuddle():
 
     def mainLoop(self):
         while True:
-            self.OSCserver.recv(46.439909)
+            self.OSCserver.recv(1)
             self.shiftSpokes()
             self.prepareBuffer()
             self.writeBuffer()
