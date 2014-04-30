@@ -27,16 +27,16 @@ class TwistedPuddle(object):
         self.launchpad = [bytearray([0x80,0x80,0x80])]*8
         self.colorTable = colorTable
 
+        # LED output loop
         task.LoopingCall(self.mainLoop).start(.03)
 
+        # all top level osc commands
         self.receiver.addCallback("/*", self.handleOSC)
 
     def colorMap(self,value):
-        print value
         index = int((value-self.sensitivity)*32)
         if index > 255:
             index=255
-        print index
         return self.colorTable[index*3:index*3+3]
 
     def handleOSC(self, message, address):
@@ -63,6 +63,27 @@ class TwistedPuddle(object):
         self.writeBuffer()
 
 
+# TwistedOSC utility functions
+def get_path(message):
+    return str(message).split(' ')[0]
+
+def get_page(message):
+    path = get_path(message)
+    return path.split('/')[1]
+
+def get_element(message):
+    path = get_path(message)
+    return path.split('/')[2]
+
+def get_number(message): # not value, but number of slider or wheel
+    element_string = get_element(message)
+    print element_string
+    element_number = int(re.sub(r'\D', '', element_string))
+    return element_number
+
+
+
+# Start server
 if __name__=='__main__':
     app = TwistedPuddle(8666)
     reactor.run()

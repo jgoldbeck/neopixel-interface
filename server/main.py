@@ -74,7 +74,7 @@ def get_element(message):
     path = get_path(message)
     return path.split('/')[2]
 
-def get_number(message):
+def get_number(message): # not value, but number of slider or whatever
     element_string = get_element(message)
     print element_string
     element_number = int(re.sub(r'\D', '', element_string))
