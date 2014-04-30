@@ -2,7 +2,7 @@
 
 import liblo, time, random
 import numpy as np
-from colorTable import colorTable
+from colorTable2 import colorTable
 
 spidev = file('/dev/spidev0.0', 'wb')
 
@@ -24,9 +24,11 @@ class SoundPuddle():
         self.colorTable = colorTable
 
     def colorMap(self,value):
+        print value
         index = int((value-self.sensitivity)*32)
         if index > 255:
             index=255
+        print index
         return self.colorTable[index*3:index*3+3]
 
     def handleOSC(self, pathstr, arg, typestr, server, usrData):
