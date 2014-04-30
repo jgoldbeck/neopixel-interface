@@ -1,7 +1,6 @@
 #!/usr/bin/python
 
 from twisted.internet import reactor, task, threads
-from txosc import osc
 from txosc import dispatch
 from txosc import async
 import numpy as np
