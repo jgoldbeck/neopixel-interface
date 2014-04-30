@@ -2,16 +2,7 @@
 
 import liblo, time, random
 import numpy as np
-from pyo import midiToHz as m2h
-
-# and the frequency bins
-midiNotes = range(36,84,6) # 8 bins total
-f0 = 44100./4096 # 10.76 hz
-allFreqs = f0*np.arange(100) # 100 is the number of frequencies you send across, currently
-freqBins = []
-for m in midiNotes:
-    iwhere = np.where((allFreqs>=m2h(m-3)) & (allFreqs<m2h(m+3)))
-    freqBins.append(iwhere[0])
+from colorTable import colorTable
 
 spidev = file('/dev/spidev0.0', 'wb')
 
@@ -30,15 +21,13 @@ class SoundPuddle():
         for i in range(8):
             self.spokes.append([-1 for j in range(20)])
         self.launchpad = [bytearray([0x80,0x80,0x80])]*8
+        self.colorTable = colorTable
 
     def colorMap(self,value):
-        diff = value - self.sensitivity
-        if diff<1.:
-            return bytearray([0x80,0xFF,0x80]) # red
-        elif diff<5.:
-            return bytearray([0xFF,0x80,0x80]) # green
-        else:
-            return bytearray([0x80,0x80,0xFF]) # blue
+        index = int((value-self.sensitivity)*32)
+        if index > 255:
+            index=255
+        return self.colorTable[index*3:index*3+3]
 
     def handleOSC(self, pathstr, arg, typestr, server, usrData):
         for i in range(8):
