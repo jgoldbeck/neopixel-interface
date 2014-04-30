@@ -65,5 +65,5 @@ class TwistedPuddle(object):
 
 
 if __name__=='__main__':
-    app = TwistedPuddle(8000)
+    app = TwistedPuddle(8666)
     reactor.run()
