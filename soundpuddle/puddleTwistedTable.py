@@ -16,7 +16,7 @@ class TwistedPuddle(object):
         print("Listening on osc.udp://localhost:%s" % (self.port))
 
         self.nleds = 160
-        self.sensitivity = 1.
+        self.threshold = 2.
         self.buff = bytearray(self.nleds*3)
         for i in range(len(self.buff)):
             self.buff[i] = 0x80
@@ -34,7 +34,7 @@ class TwistedPuddle(object):
         self.receiver.addCallback("/*", self.handleOSC)
 
     def colorMap(self,value):
-        index = int((value-self.sensitivity)*32)
+        index = int((value-self.threshold)*32)
         if index > 255:
             index=255
         return self.colorTable[index*3:index*3+3]
@@ -42,7 +42,7 @@ class TwistedPuddle(object):
     def handleOSC(self, message, address):
         arg = message.getValues()
         for i in range(8):
-            if arg[i] >= self.sensitivity:
+            if arg[i] >= self.threshold:
                 self.launchpad[i] = self.colorMap(arg[i])
             else:
                 self.launchpad[i] = bytearray([0x80,0x80,0x80])
