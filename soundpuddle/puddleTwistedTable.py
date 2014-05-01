@@ -18,7 +18,7 @@ class TwistedPuddle(object):
 
         self.nleds = 160
         self.threshold = 0.
-        self.amplication = 32
+        self.amplication = 64
         self.buff = bytearray(self.nleds*3)
         for i in range(len(self.buff)):
             self.buff[i] = 0x80
