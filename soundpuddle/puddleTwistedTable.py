@@ -39,7 +39,7 @@ class TwistedPuddle(object):
         index = int((value-self.threshold)*self.amplication)
         if index > 255:
             index=255
-        return self.colorTable[index*3:index*3+3]
+        return self.colorTable[index]
 
     def handleOSC(self, message, address):
         arg = message.getValues()
