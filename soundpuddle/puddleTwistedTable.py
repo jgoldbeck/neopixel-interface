@@ -17,7 +17,7 @@ class TwistedPuddle(object):
         print("Listening on osc.udp://localhost:%s" % (self.port))
 
         self.nleds = 160
-        self.threshold = 2.
+        self.threshold = 0.
         self.amplication = 32
         self.buff = bytearray(self.nleds*3)
         for i in range(len(self.buff)):
@@ -37,7 +37,6 @@ class TwistedPuddle(object):
 
     def colorMap(self,value):
         index = int((math.log10(value**2)-self.threshold)*self.amplication)
-        print index
         if index > 255:
             index=255
         return self.colorTable[index*3:index*3+3]
