@@ -18,7 +18,7 @@ class TwistedPuddle(object):
 
         self.nleds = 160
         self.threshold = 0.
-        self.amplication = 64
+        self.amplication = 128
         self.buff = bytearray(self.nleds*3)
         for i in range(len(self.buff)):
             self.buff[i] = 0x80
@@ -30,7 +30,7 @@ class TwistedPuddle(object):
         self.colorTable = self.generateColorTable()
 
         # LED output loop
-        task.LoopingCall(self.mainLoop).start(.01)
+        task.LoopingCall(self.mainLoop).start(.03)
 
         # all top level osc commands
         self.receiver.addCallback("/*", self.handleOSC)
