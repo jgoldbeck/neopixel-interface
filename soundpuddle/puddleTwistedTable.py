@@ -44,7 +44,7 @@ class TwistedPuddle(object):
     def handleOSC(self, message, address):
         arg = message.getValues()
         for i in range(8):
-            value = (math.log10(arg[i]**2)
+            value = math.log10(arg[i]**2)
             if value >= self.threshold:
                 self.launchpad[i] = self.colorMap(value)
             else:
