@@ -41,7 +41,7 @@ class TwistedPuddle(object):
         index = int((value-self.threshold)*self.amplication)
         if index > 255:
             index=255
-        self.colorsSeen.add(self.colorTable[index*3:index*3+3])
+        self.colorsSeen.add((self.colorTable[index*3],self.colorTable[index*3+1],self.colorTable[index*3+2]))
         print len(self.colorsSeen)
         return self.colorTable[index*3:index*3+3]
 
