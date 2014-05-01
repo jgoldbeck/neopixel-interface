@@ -6,7 +6,6 @@ from txosc import async
 import numpy as np
 import Image
 import math
-from sets import Set
 
 spidev = file('/dev/spidev0.0', 'wb')
 
@@ -25,7 +24,6 @@ class TwistedPuddle(object):
             self.buff[i] = 0x80
         self.zeros = bytearray(5)
         self.spokes = []
-        self.colorsSeen = Set([])
         for i in range(8):
             self.spokes.append([-1 for j in range(20)])
         self.launchpad = [bytearray([0x80,0x80,0x80])]*8
@@ -41,8 +39,6 @@ class TwistedPuddle(object):
         index = int((value-self.threshold)*self.amplication)
         if index > 255:
             index=255
-        self.colorsSeen.add((self.colorTable[index*3],self.colorTable[index*3+1],self.colorTable[index*3+2]))
-        print len(self.colorsSeen)
         return self.colorTable[index*3:index*3+3]
 
     def handleOSC(self, message, address):
@@ -74,7 +70,6 @@ class TwistedPuddle(object):
         height = im.size[1]
         pixel_strip = im.load()
         pixel_list = [pixel_strip[x, x] for x in range(height)]
-        print pixel_list
         gamma = bytearray(256)
         for i in range(256):
             gamma[i] = 0x80 | int(pow(float(i) / 255.0, 2.5) * 127.0 + 0.5)
@@ -88,6 +83,8 @@ class TwistedPuddle(object):
             column[y3]     = gamma[value[1]]
             column[y3 + 1] = gamma[value[0]]
             column[y3 + 2] = gamma[value[2]]
+            print (column[y3],column[y3]+1,column[y3]+2)
+
         return column
 
 
