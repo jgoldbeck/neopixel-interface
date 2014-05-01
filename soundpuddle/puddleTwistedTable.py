@@ -36,7 +36,7 @@ class TwistedPuddle(object):
         self.receiver.addCallback("/*", self.handleOSC)
 
     def colorMap(self,value):
-        index = int((math.log10(value**2)-self.threshold)*self.amplication)
+        index = int(value-self.threshold)*self.amplication)
         if index > 255:
             index=255
         return self.colorTable[index*3:index*3+3]
@@ -44,8 +44,9 @@ class TwistedPuddle(object):
     def handleOSC(self, message, address):
         arg = message.getValues()
         for i in range(8):
-            if arg[i] >= self.threshold:
-                self.launchpad[i] = self.colorMap(arg[i])
+            value = (math.log10(arg[i]**2)
+            if value >= self.threshold:
+                self.launchpad[i] = self.colorMap(value)
             else:
                 self.launchpad[i] = bytearray([0x80,0x80,0x80])
 
