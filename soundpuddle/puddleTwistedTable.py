@@ -6,7 +6,7 @@ from txosc import async
 import numpy as np
 import Image
 import math
-from collections import Set
+from sets import Set
 
 spidev = file('/dev/spidev0.0', 'wb')
 
@@ -25,7 +25,7 @@ class TwistedPuddle(object):
             self.buff[i] = 0x80
         self.zeros = bytearray(5)
         self.spokes = []
-        self.colorsSeen = set()
+        self.colorsSeen = Set([])
         for i in range(8):
             self.spokes.append([-1 for j in range(20)])
         self.launchpad = [bytearray([0x80,0x80,0x80])]*8
