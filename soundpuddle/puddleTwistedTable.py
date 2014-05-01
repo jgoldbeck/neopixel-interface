@@ -30,7 +30,7 @@ class TwistedPuddle(object):
         self.colorTable = self.generateColorTable()
 
         # LED output loop
-        task.LoopingCall(self.mainLoop).start(.03)
+        task.LoopingCall(self.mainLoop).start(.01)
 
         # all top level osc commands
         self.receiver.addCallback("/*", self.handleOSC)
@@ -66,7 +66,7 @@ class TwistedPuddle(object):
         self.writeBuffer()
 
     def generateColorTable(self):
-        im = Image.open('hue-saturation-gradient.png').convert('RGB')
+        im = Image.open('fire.png').convert('RGB')
         height = im.size[1]
         pixel_strip = im.load()
         pixel_list = [pixel_strip[x, x] for x in range(height)]
