@@ -36,7 +36,7 @@ class TwistedPuddle(object):
         self.receiver.addCallback("/*", self.handleOSC)
 
     def colorMap(self,value):
-        index = int(value-self.threshold)*self.amplication)
+        index = int((value-self.threshold)*self.amplication)
         if index > 255:
             index=255
         return self.colorTable[index*3:index*3+3]
