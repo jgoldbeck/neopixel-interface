@@ -25,7 +25,7 @@ class TwistedPuddle(object):
         for i in range(8):
             self.spokes.append([-1 for j in range(20)])
         self.launchpad = [bytearray([0x80,0x80,0x80])]*8
-        self.colorTable = generateColorTable()
+        self.colorTable = self.generateColorTable()
 
         # LED output loop
         task.LoopingCall(self.mainLoop).start(.03)
