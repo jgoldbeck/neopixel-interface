@@ -72,7 +72,7 @@ class TwistedPuddle(object):
         for i in range(256):
             gamma[i] = 0x80 | int(pow(float(i) / 255.0, 2.5) * 127.0 + 0.5)
 
-        column = [0 for x in range(width)]
+        column = [0 for x in range(height)]
         column = bytearray(height * 3 + 1)
 
         for y in range(height):
