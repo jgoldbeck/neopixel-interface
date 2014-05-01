@@ -63,10 +63,10 @@ class TwistedPuddle(object):
         self.writeBuffer()
 
     def generateColorTable(self):
-        im = Image.open('greengradhor.png').convert('RGB')
+        im = Image.open('hue-saturation-gradient.png').convert('RGB')
         height = im.size[1]
         pixel_strip = im.load()
-        pixel_list = [pixel_strip[x, 0] for x in range(height)]
+        pixel_list = [pixel_strip[x, x] for x in range(height)]
         print pixel_list
         gamma = bytearray(256)
         for i in range(256):
