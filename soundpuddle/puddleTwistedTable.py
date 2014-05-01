@@ -17,6 +17,7 @@ class TwistedPuddle(object):
 
         self.nleds = 160
         self.threshold = 2.
+        self.amplication = 16
         self.buff = bytearray(self.nleds*3)
         for i in range(len(self.buff)):
             self.buff[i] = 0x80
@@ -34,7 +35,7 @@ class TwistedPuddle(object):
         self.receiver.addCallback("/*", self.handleOSC)
 
     def colorMap(self,value):
-        index = int((value-self.threshold)*32)
+        index = int((value-self.threshold)*self.amplication)
         if index > 255:
             index=255
         return self.colorTable[index*3:index*3+3]
