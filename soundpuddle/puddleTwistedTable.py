@@ -5,6 +5,7 @@ from txosc import dispatch
 from txosc import async
 import numpy as np
 import Image
+import math
 
 spidev = file('/dev/spidev0.0', 'wb')
 
