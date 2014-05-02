@@ -71,7 +71,7 @@ class TwistedPuddle(object):
         pixel_list = [pixel_strip[x, x] for x in range(height)]
         gamma = bytearray(256)
         for i in range(256):
-            gamma[i] = 0x80 | int(pow(float(i) / 255.0, 1) * 127.0 + 0.5)
+            gamma[i] = 0x80 | int(pow(float(i) / 255.0, 2.5) * 127.0 + 0.5)
 
         column = [0 for x in range(height)]
         column = bytearray(height * 3 + 1)
