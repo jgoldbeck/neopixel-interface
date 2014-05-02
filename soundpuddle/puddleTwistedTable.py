@@ -18,7 +18,7 @@ class TwistedPuddle(object):
 
         self.nleds = 160
         self.threshold = 0.
-        self.amplication = 128
+        self.amplification = 128.
         self.buff = bytearray(self.nleds*3)
         for i in range(len(self.buff)):
             self.buff[i] = 0x80
@@ -33,19 +33,18 @@ class TwistedPuddle(object):
         self.receiver.addCallback("/*", self.handleOSC)
 
     def colorMap(self,value):
-        index = int((value-self.threshold)*self.amplication)
+        index = int(value*128.)
         if index > 255:
             index=255
         return self.colorTable[index*3:index*3+3]
 
     def handleOSC(self, message, address):
         arg = message.getValues()
+        self.launchpad = [bytearray([0x80,0x80,0x80])]*8
         for i in range(24):
-            value = math.log10(arg[i]**2)
+            value = math.log10(arg[i]*self.amplification)
             if value >= self.threshold:
                 self.launchpad[i%8] = self.colorMap(value)
-            else:
-                self.launchpad[i%8] = bytearray([0x80,0x80,0x80])
 
     def shiftSpokes(self):
         for i in range(4):
