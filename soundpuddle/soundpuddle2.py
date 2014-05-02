@@ -4,7 +4,7 @@ import liblo, time, random
 import numpy as np
 from colorTable import colorTable
 
-spidev = file('/dev/spidev0.0', 'wb')
+//spidev = file('/dev/spidev0.0', 'wb')
 
 class SoundPuddle():
 
