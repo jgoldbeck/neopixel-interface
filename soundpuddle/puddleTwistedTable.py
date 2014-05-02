@@ -83,7 +83,7 @@ class TwistedPuddle(object):
             column[y3]     = gamma[value[1]]
             column[y3 + 1] = gamma[value[0]]
             column[y3 + 2] = gamma[value[2]]
-            print (column[y3],column[y3]+1,column[y3]+2)
+            print (column[y3],column[y3+1],column[y3+2])
 
         return column
 
