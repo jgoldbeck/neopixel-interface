@@ -23,9 +23,6 @@ class TwistedPuddle(object):
         for i in range(len(self.buff)):
             self.buff[i] = 0x80
         self.zeros = bytearray(5)
-        self.spokes = []
-        for i in range(8):
-            self.spokes.append([-1 for j in range(20)])
         self.launchpad = [bytearray([0x80,0x80,0x80])]*8
         self.colorTable = self.generateColorTable()
 
@@ -43,12 +40,12 @@ class TwistedPuddle(object):
 
     def handleOSC(self, message, address):
         arg = message.getValues()
-        for i in range(8):
+        for i in range(24):
             value = math.log10(arg[i]**2)
             if value >= self.threshold:
-                self.launchpad[i] = self.colorMap(value)
+                self.launchpad[i%8] = self.colorMap(value)
             else:
-                self.launchpad[i] = bytearray([0x80,0x80,0x80])
+                self.launchpad[i%8] = bytearray([0x80,0x80,0x80])
 
     def shiftSpokes(self):
         for i in range(4):
