@@ -65,7 +65,7 @@ class TwistedPuddle(object):
         self.writeBuffer()
 
     def generateColorTable(self):
-        im = Image.open('fire.png').convert('RGB')
+        im = Image.open('extreme_pastel.png').convert('RGB')
         height = im.size[1]
         pixel_strip = im.load()
         pixel_list = [pixel_strip[x, x] for x in range(height)]
