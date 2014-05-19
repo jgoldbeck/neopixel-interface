@@ -52,18 +52,16 @@ class TwistedPuddle(object):
 
     def handleOSC(self, message, address):
         arg = message.getValues()
+        self.stats[:,self.i] = arg
+        self.i += 1
+        if self.i == 10000:
+            np.save(filename, self.stats)
+            sys.exit(0)
         self.launchpad = [bytearray([0x80,0x80,0x80])]*8
         for i in range(24):
             value = math.log10(arg[i]*self.amplification)
             if value >= self.threshold:
                 self.launchpad[i%8] = self.colorMap(value)
-
-    def handleOSC(self, message, address):
-        self.stats[:,i] = message.getValues()        
-        self.i += 1
-        if self.i == 10000:
-            np.save(filename, self.stats)
-            sys.exit(0)
 
     def shiftSpokes(self):
         for i in range(4):
