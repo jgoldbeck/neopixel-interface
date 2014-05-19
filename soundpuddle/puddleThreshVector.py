@@ -58,8 +58,8 @@ class TwistedPuddle(object):
         # all top level osc commands
         self.receiver.addCallback("/*", self.handleOSC)
 
-    def colorMap(self,value,index):
-        index = int((value+self.threshold[index])*17.) # 255./15 = 17
+    def colorMap(self,value,freqbin):
+        index = int((value+self.threshold[freqbin])*17.) # 255./15 = 17
         if index > 255:
             index=255
         return self.colorTable[index*3:index*3+3]
