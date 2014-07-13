@@ -44,9 +44,10 @@ class TwistedPuddle(object):
         self.launchpad = [bytearray([0x80,0x80,0x80])]*8
         for i in range(24):
             value = math.log10(arg[i]*self.amplification)
-            if value >= self.adaptiveThreshold[i]:
-                self.launchpad[i%8] = self.colorMap(value - self.adaptiveThreshold[i])
-            self.adaptiveThreshold[i] = max(self.adaptiveThreshold[i] - .01, value - .1)
+            threshold = self.adaptiveThreshold[i]
+            if value >= threshold:
+                self.launchpad[i%8] = self.colorMap(3*(value - threshold))
+            self.adaptiveThreshold[i] = max(threshold - .02, value)
 
     def shiftSpokes(self):
         for i in range(4):
