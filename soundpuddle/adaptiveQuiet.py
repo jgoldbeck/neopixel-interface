@@ -51,7 +51,7 @@ class TwistedPuddle(object):
         self.lastArg[0] = arg[0]
         self.lastArg[1] = arg[1]
 
-        print maxArgSum
+        print self.maxArgSum
         if arg[0] > .008:
             self.quietTime = 0
         else:
