@@ -42,7 +42,7 @@ class TwistedPuddle(object):
     def handleOSC(self, message, address):
         arg = message.getValues()
         self.launchpad = [bytearray([0x80,0x80,0x80])]*8
-        print arg[i]
+        print arg[0]
         for i in range(24):
             value = math.log10(arg[i]*self.amplification)
             threshold = self.adaptiveThreshold[i]
