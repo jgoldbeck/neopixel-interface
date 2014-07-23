@@ -44,11 +44,12 @@ class TwistedPuddle(object):
     def handleOSC(self, message, address):
         arg = message.getValues()
         self.launchpad = [bytearray([0x80,0x80,0x80])]*8
+        print arg[1]
         if arg[0] > .008:
             self.quietTime = 0
         else:
             self.quietTime += 1
-        print self.quietTime
+        # print self.quietTime
 
         if self.quietTime < 30/self.frameLength: # one second
             for i in range(24):
