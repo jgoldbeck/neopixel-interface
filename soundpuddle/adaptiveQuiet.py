@@ -29,6 +29,7 @@ class TwistedPuddle(object):
         self.adaptiveThreshold = [0.] * 24
         self.quietTime = 0
         self.lastArg = [0, 0]
+        self.maxArgSum=[0,0]
 
         # LED output loop
         task.LoopingCall(self.mainLoop).start(self.frameLength)
@@ -45,8 +46,10 @@ class TwistedPuddle(object):
     def handleOSC(self, message, address):
         arg = message.getValues()
         self.launchpad = [bytearray([0x80,0x80,0x80])]*8
-        print (arg[0] + self.lastArg[0], arg[1] + self.lastArg[1])
         self.lastArg[0] = arg[0]
+        maxArgSum[0] = max(maxArgSum[0], arg[0] + self.lastArg[0])
+        maxArgSum[1] = max(maxArgSum[1], arg[1] + self.lastArg[1])
+        print maxArgSum
         self.lastArg[1] = arg[1]
         if arg[0] > .008:
             self.quietTime = 0
