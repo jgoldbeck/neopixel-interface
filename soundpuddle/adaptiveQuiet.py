@@ -51,7 +51,6 @@ class TwistedPuddle(object):
             self.quietTime = 0
         else:
             self.quietTime += 1
-        print self.quietTime
 
         self.lastArg[0] = arg[0]
         self.lastArg[1] = arg[1]
