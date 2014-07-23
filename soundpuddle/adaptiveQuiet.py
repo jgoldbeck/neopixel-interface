@@ -20,15 +20,17 @@ class TwistedPuddle(object):
         self.threshold = 0.
         self.amplification = 128.
         self.buff = bytearray(self.nleds*3)
+        self.frameLength = .03
         for i in range(len(self.buff)):
             self.buff[i] = 0x80
         self.zeros = bytearray(5)
         self.launchpad = [bytearray([0x80,0x80,0x80])]*8
         self.colorTable = self.generateColorTable()
         self.adaptiveThreshold = [0.] * 24
+        self.quietTime = 0
 
         # LED output loop
-        task.LoopingCall(self.mainLoop).start(.03)
+        task.LoopingCall(self.mainLoop).start(self.frameLength)
 
         # all top level osc commands
         self.receiver.addCallback("/*", self.handleOSC)
@@ -42,13 +44,18 @@ class TwistedPuddle(object):
     def handleOSC(self, message, address):
         arg = message.getValues()
         self.launchpad = [bytearray([0x80,0x80,0x80])]*8
-        print arg[0]
-        for i in range(24):
-            value = math.log10(arg[i]*self.amplification)
-            threshold = self.adaptiveThreshold[i]
-            if value >= threshold:
-                self.launchpad[i%8] = self.colorMap(3*(value - threshold))
-            self.adaptiveThreshold[i] = max(threshold - .02, value)
+        if arg[0] > .005:
+            quietTime = 0
+        else:
+            quietTime += 1
+        print quietTime
+        if quietTime < 1/self.frameLength: # one second
+            for i in range(24):
+                value = math.log10(arg[i]*self.amplification)
+                threshold = self.adaptiveThreshold[i]
+                if value >= threshold:
+                    self.launchpad[i%8] = self.colorMap(3*(value - threshold))
+                self.adaptiveThreshold[i] = max(threshold - .02, value)
 
     def shiftSpokes(self):
         for i in range(4):
