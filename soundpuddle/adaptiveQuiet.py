@@ -47,7 +47,7 @@ class TwistedPuddle(object):
         arg = message.getValues()
         self.launchpad = [bytearray([0x80,0x80,0x80])]*8
 
-        if arg[0] + lastArg[0] + arg[1] + lastArg[1] > .03:
+        if arg[0] + self.lastArg[0] + arg[1] + self.lastArg[1] > .03:
             self.quietTime = 0
         else:
             self.quietTime += 1
