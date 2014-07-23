@@ -45,11 +45,11 @@ class TwistedPuddle(object):
         arg = message.getValues()
         self.launchpad = [bytearray([0x80,0x80,0x80])]*8
         if arg[0] > .005:
-            quietTime = 0
+            self.quietTime = 0
         else:
-            quietTime += 1
-        print quietTime
-        if quietTime < 1/self.frameLength: # one second
+            self.quietTime += 1
+        print self.quietTime
+        if self.quietTime < 1/self.frameLength: # one second
             for i in range(24):
                 value = math.log10(arg[i]*self.amplification)
                 threshold = self.adaptiveThreshold[i]
