@@ -40,6 +40,7 @@ class TwistedPuddle(object):
         return self.colorTable[index*3:index*3+3]
 
     def handleOSC(self, message, address):
+        print message
         arg = message.getValues()
         self.launchpad = [bytearray([0x80,0x80,0x80])]*8
         for i in range(24):
