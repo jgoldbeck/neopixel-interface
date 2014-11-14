@@ -56,8 +56,9 @@ class TwistedPuddle(object):
         self.lastArg[1] = arg[1]
 
         if self.quietTime < 30/self.frameLength: # one second
-            for i in range(24):
-                value = math.log10(arg[i]*self.amplification)
+            for i in range(0, 8):
+                v = arg[i*3] + arg[i*3+1] + arg[i*3+2]
+                value = math.log10(v*self.amplification)
                 threshold = self.adaptiveThreshold[i]
                 if value >= threshold:
                     self.launchpad[i%8] = self.colorMap(3*(value - threshold))
@@ -71,7 +72,6 @@ class TwistedPuddle(object):
     def writeBuffer(self):
         spidev.write(self.buff+self.zeros)
         spidev.flush()
-
 
     def mainLoop(self):
         self.shiftSpokes()
