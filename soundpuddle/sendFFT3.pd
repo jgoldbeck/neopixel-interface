@@ -1,26 +1,26 @@
-#N canvas 184 320 1027 374 10;
+#N canvas 493 336 805 359 10;
 #X obj 36 51 rfft~;
 #X obj 37 80 *~;
 #X obj 64 80 *~;
 #X obj 37 118 +~;
 #X obj 36 146 tabsend~ magnitude;
 #X obj -197 -17 table magnitude;
-#X obj 258 35 tabdump magnitude;
-#X obj 258 -16 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+#X obj 238 35 tabdump magnitude;
+#X obj 238 -16 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
 1;
 #X obj 36 -24 inlet~;
-#X obj 448 -33 inlet;
-#X text 489 -36 bang to initialize;
-#X text 241 85 discard;
-#X obj 292 249 sendOSC;
-#X obj 292 185 list trim;
-#X obj 292 166 list prepend send;
-#X msg 317 226 connect localhost 8666;
-#X obj 292 147 list prepend /fft;
+#X obj 428 -33 inlet;
+#X text 469 -36 bang to initialize;
+#X text 221 85 discard;
+#X obj 272 249 sendOSC;
+#X obj 272 185 list trim;
+#X obj 272 166 list prepend send;
+#X msg 297 226 connect localhost 8666;
+#X obj 272 147 list prepend /fft;
 #X obj -196 -44 block~ 1024;
-#X obj 258 66 list split 5;
-#X obj 292 110 list split 24;
-#X obj 258 7 metro 23.22;
+#X obj 238 66 list split 5;
+#X obj 272 110 list split 24;
+#X obj 238 7 metro 23.22;
 #N canvas 3 55 450 300 (subpatch) 0;
 #X array window 512 float 3;
 #A 0 3.76491e-05 0.000150591 0.000338808 0.000602272 0.000940943 0.00135477
