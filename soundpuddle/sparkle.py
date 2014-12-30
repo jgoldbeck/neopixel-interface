@@ -49,9 +49,9 @@ class TwistedPuddle(object):
 
     def probabiliticWhite(self,value):
         if (value > random.uniform(0, 5)): # magic number in here for now
-            return [255, 255, 255] # always white
+            return [0xFF, 0xFF, 0xFF] # white
         else:
-            return []
+            return [0x80, 0x80, 0x80] # black
 
     def handleOSC(self, message, address):
         arg = message.getValues()
