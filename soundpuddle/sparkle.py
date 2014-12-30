@@ -29,6 +29,7 @@ class TwistedPuddle(object):
 
         ## sparkle magic numbers ##
         self.sparkle_fraction = 0.05
+        self.sparkle_fraction_amplification = 2 # music responsive
         self.sparkle_length = 3
         self.sparkle_fade_rate = 0.4 # non-music responsive
         self.sparkle_fade_randomness_amplification = .8 # music responsive
@@ -79,9 +80,13 @@ class TwistedPuddle(object):
         for i, value in enumerate(self.soundVals):
             # threshold = self.adaptiveThreshold[i]
 
-            sparkle_length = self.sparkle_length - 0 * value
-            new_sparkle_fraction = self.sparkle_fraction / sparkle_length
+            if value > 0
+                sparkle_fraction = self.sparkle_fraction * (1 + sparkle_fraction_amplification * value)
+            else
+                sparkle_fraction = self.sparkle_fraction
 
+            sparkle_length = self.sparkle_length
+            new_sparkle_fraction = sparkle_fraction / sparkle_length
             for j in range(self.leds_per_spoke):
                 if (random.random() < new_sparkle_fraction):
                     self.led_map[i + self.nspokes * j] += self.sparkle_length
@@ -100,11 +105,13 @@ class TwistedPuddle(object):
             if (led_val):
                 for k in range(3):
                     self.buff[led_idx * 3 + k] = self.off_white[k]
+            elif (self.buff[led_idx * 3] is 128 and self.buff[led_idx * 3 + 1] is 128 and self.buff[led_idx * 3 + 2] is 128):
+                # do nothing because it's already black
             elif (sum(self.buff[led_idx * 3:led_idx * 3 + 3]) < (128 * 3) + self.brightness_min):
                 self.buff[led_idx * 3:led_idx * 3 + 3] = self.black
             else:
+                sparkle_fade_randomness = self.spoke_sparkle_fade_randomness[led_idx % self.nspokes]
                 for k in range(3):
-                    sparkle_fade_randomness = self.spoke_sparkle_fade_randomness[led_idx % self.nspokes]
                     sparkle_fade_rate = max(0, self.sparkle_fade_rate * (1 + sparkle_fade_randomness * (random.random() - .5)))
                     self.buff[led_idx * 3 + k] = int((self.buff[led_idx * 3 + k] - 128) * math.exp(-1 * sparkle_fade_rate) + 128)
 
