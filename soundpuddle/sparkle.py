@@ -79,8 +79,9 @@ class TwistedPuddle(object):
 
 
     def setLedMapFromSoundVals(self):
-        for j in range(0, self.leds_per_spoke):
-            self.led_map[i + self.nspokes * j] += max(random.expovariate(1) - 1, 0)
+        for i in range(0, self.soundVals):
+            for j in range(0, self.leds_per_spoke):
+                self.led_map[i + self.nspokes * j] += max(random.expovariate(1) - 1, 0)
 
         # if value >= threshold:
         #     for j in range(0, self.leds_per_spoke):
