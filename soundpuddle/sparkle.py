@@ -110,7 +110,7 @@ class TwistedPuddle(object):
     def setBufferFromLedMap(self):
         for led_idx, led_val in enumerate(self.led_map):
             for k in range(3):
-                self.buff[led_idx * 3 + k] = self.off_white[k] if led_val else (self.buff[led_idx * 3 + k] - 128) / math.ceil(math.exp(self.sparkle_fade_rate)) + 128
+                self.buff[led_idx * 3 + k] = self.off_white[k] if led_val else (self.buff[led_idx * 3 + k] - 128) / math.pow(2, self.sparkle_fade_rate) + 128
 
     def writeBuffer(self):
         if (spi_connected):
