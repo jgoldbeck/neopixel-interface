@@ -35,7 +35,7 @@ class TwistedPuddle(object):
         self.sparkle_fade_randomness_amplification = .8 # music responsive
         self.brightness_min = 7 # prevents the final color in the fade from being strongly colored when quiet
         self.amplification = 250.
-        self.threshold_decay = .02
+        self.threshold_decay = .2
 
 
         ## colors
@@ -82,7 +82,7 @@ class TwistedPuddle(object):
             threshold = self.adaptiveThreshold[i]
 
             if (value > 0):
-                sparkle_fraction = self.sparkle_fraction * (1 + self.sparkle_fraction_amplification * (value - threshold + .1))
+                sparkle_fraction = self.sparkle_fraction * (1 + self.sparkle_fraction_amplification * (value - threshold - self.threshold_decay))
             else:
                 sparkle_fraction = self.sparkle_fraction
 
