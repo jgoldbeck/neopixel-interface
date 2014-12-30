@@ -72,7 +72,7 @@ class TwistedPuddle(object):
                 value = math.log10(v*self.amplification)
                 threshold = self.adaptiveThreshold[i]
                 for j in range(0, self.leds_per_spoke):
-                    self.led_map[i + self.nspokes * j] += random.expovariate(1)
+                    self.led_map[i + self.nspokes * j] += max(random.expovariate(1) - 1, 0)
 
                 # if value >= threshold:
                 #     for j in range(0, self.leds_per_spoke):
