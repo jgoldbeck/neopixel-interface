@@ -31,7 +31,7 @@ class TwistedPuddle(object):
         self.sparkle_fraction = 0.25
         self.sparkle_length = 4
         self.sparkle_fade_rate = 0.67
-        self.sparkle_fade_randomness = 0.3
+        self.sparkle_fade_randomness = 2
 
         self.spoke_sparkle_fade_randomness = [0] * self.nspokes
 
@@ -119,8 +119,8 @@ class TwistedPuddle(object):
                     self.buff[led_idx * 3 + k] = self.off_white[k]
                 else:
                     sparkle_fade_randomness = self.spoke_sparkle_fade_randomness[led_idx % self.nspokes]
-                    sparkle_fade_rate = self.sparkle_fade_rate * (1 + sparkle_fade_randomness * (random.random() - .5))
-                    self.buff[led_idx * 3 + k] = int((self.buff[led_idx * 3 + k] - 128) / math.exp(sparkle_fade_rate) + 128)
+                    sparkle_fade_rate = max(0, self.sparkle_fade_rate * (1 + sparkle_fade_randomness * (random.random() - .5)))
+                    self.buff[led_idx * 3 + k] = int((self.buff[led_idx * 3 + k] - 128) * math.exp(-1 * sparkle_fade_rate) + 128)
 
     def writeBuffer(self):
         if (spi_connected):
