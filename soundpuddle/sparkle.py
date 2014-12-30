@@ -30,15 +30,16 @@ class TwistedPuddle(object):
         ## sparkle magic numbers ##
         self.sparkle_fraction = 0.25
         self.sparkle_length = 4
-        self.sparkle_fade_rate = 0.67
-        self.sparkle_fade_randomness = 2
+        self.sparkle_fade_rate = 0.67 # non-music responsive
+        self.sparkle_fade_randomness_amplification = 2 # music responsive
 
-        self.spoke_sparkle_fade_randomness = [0] * self.nspokes
 
         ## colors
         self.off_white = bytearray([195, 230, 175]) # g, r, b
 
         self.led_map = [0] * self.nleds
+        self.spoke_sparkle_fade_randomness = [0] * self.nspokes
+
         self.threshold = 0.
         self.soundVals = [0] * self.nspokes
         self.amplification = 128.
@@ -61,36 +62,20 @@ class TwistedPuddle(object):
         self.receiver.addCallback("/*", self.handleOSC)
 
 
-    # def probabiliticWhite(self,value):
-    #     if (value > random.uniform(0, 3)): # magic number in here for now
-    #         return [0xFF, 0xFF, 0xFF] # white
-    #     else:
-    #         return [0x80, 0x80, 0x80] # black
-
     def handleOSC(self, message, address):
         arg = message.getValues()
         # self.launchpad = [bytearray([0x80,0x80,0x80])]*8
+        for i in range(0, self.nspokes):
+            v = arg[i*3] + arg[i*3+1] + arg[i*3+2]
+            value = math.log10(v*self.amplification)
 
-        if arg[0] + self.lastArg[0] + arg[1] + self.lastArg[1] > .020:
-            self.quietTime = 0
-        else:
-            self.quietTime += 1
-
-        self.lastArg[0] = arg[0]
-        self.lastArg[1] = arg[1]
-
-        if self.quietTime < 30/self.frameLength: # one second
-            for i in range(0, self.nspokes):
-                v = arg[i*3] + arg[i*3+1] + arg[i*3+2]
-                value = math.log10(v*self.amplification)
-
-                self.soundVals[i] = value
+            self.soundVals[i] = value
 
 
 
     def setLedMapFromSoundVals(self): # magic numbers!
         for i, value in enumerate(self.soundVals):
-            threshold = self.adaptiveThreshold[i]
+            # threshold = self.adaptiveThreshold[i]
 
             sparkle_length = self.sparkle_length - 0 * value
             new_sparkle_fraction = self.sparkle_fraction / sparkle_length
@@ -99,15 +84,11 @@ class TwistedPuddle(object):
                 if (random.random() < new_sparkle_fraction):
                     self.led_map[i + self.nspokes * j] += self.sparkle_length
 
-            self.spoke_sparkle_fade_randomness[i] = value * self.sparkle_fade_randomness if value > 0 else 0
+            self.spoke_sparkle_fade_randomness[i] = value * self.sparkle_fade_randomness_amplification if value > 0 else 0
 
-            self.adaptiveThreshold[i] = max(threshold - .01, value)
+            # self.adaptiveThreshold[i] = max(threshold - .01, value)
 
 
-    # def shiftSpokes(self):
-    #     for i in range(4):
-    #         self.buff[(60*2*i):(60*2*i+60)] = self.launchpad[2*i] + self.buff[(60*2*i):(60*2*i+57)]
-    #         self.buff[(60*(2*i+1)):(60*(2*i+1)+60)] = self.buff[(60*(2*i+1)+3):(60*(2*i+1)+60)] + self.launchpad[2*i+1]
 
     def darkenLedMap(self):
         self.led_map[:] = [max(0, x - 1) for x in self.led_map]
@@ -128,34 +109,10 @@ class TwistedPuddle(object):
             spidev.flush()
 
     def mainLoop(self):
-        # self.shiftSpokes()
         self.darkenLedMap()
         self.setLedMapFromSoundVals()
         self.setBufferFromLedMap()
         self.writeBuffer()
-
-    # def generateColorTable(self):
-    #     im = Image.open(os.path.join(os.path.dirname(__file__), 'unfull_pastel.png')).convert('RGB')
-    #     height = im.size[1]
-    #     pixel_strip = im.load()
-    #     pixel_list = [pixel_strip[x, x] for x in range(height)]
-    #     gamma = bytearray(256)
-    #     for i in range(256):
-    #         gamma[i] = 0x80 | int(pow(float(i) / 255.0, 2.5) * 127.0 + 0.5)
-
-    #     column = [0 for x in range(height)]
-    #     column = bytearray(height * 3 + 1)
-
-    #     for y in range(height):
-    #         value = pixel_list[y]
-    #         y3 = y * 3
-    #         column[y3]     = gamma[value[1]]
-    #         column[y3 + 1] = gamma[value[0]]
-    #         column[y3 + 2] = gamma[value[2]]
-    #         print (column[y3],column[y3+1],column[y3+2])
-
-    #     return column
-
 
 
 # TwistedOSC utility functions
