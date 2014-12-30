@@ -48,7 +48,7 @@ class TwistedPuddle(object):
 
 
     def probabiliticWhite(self,value):
-        if (value > random.uniform(0, 5)): # magic number in here for now
+        if (value > random.uniform(0, 3)): # magic number in here for now
             return [0xFF, 0xFF, 0xFF] # white
         else:
             return [0x80, 0x80, 0x80] # black
