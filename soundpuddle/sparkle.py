@@ -28,6 +28,7 @@ class TwistedPuddle(object):
         self.leds_per_spoke = self.nleds / self.nspokes
         self.led_map = [0] * self.nleds
         self.threshold = 0.
+        self.soundVals = [0] * self.nspokes
         self.amplification = 128.
         self.buff = bytearray(self.nleds*3)
         self.frameLength = .03
@@ -71,17 +72,20 @@ class TwistedPuddle(object):
                 v = arg[i*3] + arg[i*3+1] + arg[i*3+2]
                 value = math.log10(v*self.amplification)
                 threshold = self.adaptiveThreshold[i]
-                for j in range(0, self.leds_per_spoke):
-                    self.led_map[i + self.nspokes * j] += max(random.expovariate(1) - 1, 0)
 
-                # if value >= threshold:
-                #     for j in range(0, self.leds_per_spoke):
-                #         self.led_map[i + self.nspokes * j] += random.uniform(0, max((value - threshold), 2)) # magic number here
-                        # self.buff[3 * k], self.buff[3 * k + 1], self.buff[3 * k + 2] = self.probabiliticWhite(3*(value - threshold));
+                self.soundVals[i] = value
+
                 self.adaptiveThreshold[i] = max(threshold - .02, value)
-        self.darkenLedMap()
 
 
+    def setLedMapFromSoundVals(self):
+        for j in range(0, self.leds_per_spoke):
+            self.led_map[i + self.nspokes * j] += max(random.expovariate(1) - 1, 0)
+
+        # if value >= threshold:
+        #     for j in range(0, self.leds_per_spoke):
+        #         self.led_map[i + self.nspokes * j] += random.uniform(0, max((value - threshold), 2)) # magic number here
+                # self.buff[3 * k], self.buff[3 * k + 1], self.buff[3 * k + 2] = self.probabiliticWhite(3*(value - threshold));
     # def shiftSpokes(self):
     #     for i in range(4):
     #         self.buff[(60*2*i):(60*2*i+60)] = self.launchpad[2*i] + self.buff[(60*2*i):(60*2*i+57)]
@@ -102,6 +106,8 @@ class TwistedPuddle(object):
 
     def mainLoop(self):
         # self.shiftSpokes()
+        self.setLedMapFromSoundVals()
+        self.darkenLedMap()
         self.setBufferFromLedMap()
         self.writeBuffer()
 
