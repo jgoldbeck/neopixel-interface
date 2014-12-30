@@ -89,7 +89,8 @@ class TwistedPuddle(object):
             threshold = self.adaptiveThreshold[i]
 
             for j in range(self.leds_per_spoke):
-                if (random.random() > self.sparkle_fraction):
+                new_sparkle_fraction = self.sparkle_fraction / self.sparkle_length
+                if (random.random() < new_sparkle_fraction):
                     self.led_map[i + self.nspokes * j] += self.sparkle_length
 
             self.adaptiveThreshold[i] = max(threshold - .01, value)
