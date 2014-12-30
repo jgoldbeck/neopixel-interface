@@ -31,6 +31,9 @@ class TwistedPuddle(object):
         self.sparkle_cutoff = 4
         self.sparkle_mean = 1.5
 
+        ## colors
+        self.off_white = bytearray([255, 255, 235]) # g, r, b
+
         self.led_map = [0] * self.nleds
         self.threshold = 0.
         self.soundVals = [0] * self.nspokes
@@ -106,7 +109,7 @@ class TwistedPuddle(object):
     def setBufferFromLedMap(self):
         for led_idx, led_val in enumerate(self.led_map):
             for k in range(3):
-                self.buff[led_idx * 3 + k] = 0xFF if led_val else 0x80
+                self.buff[led_idx * 3 + k] = self.off_white[k] if led_val else 0x80
 
     def writeBuffer(self):
         if (spi_connected):
