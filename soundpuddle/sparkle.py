@@ -79,6 +79,8 @@ class TwistedPuddle(object):
                 #         self.led_map[i + self.nspokes * j] += random.uniform(0, max((value - threshold), 2)) # magic number here
                         # self.buff[3 * k], self.buff[3 * k + 1], self.buff[3 * k + 2] = self.probabiliticWhite(3*(value - threshold));
                 self.adaptiveThreshold[i] = max(threshold - .02, value)
+        self.darkenLedMap()
+
 
     # def shiftSpokes(self):
     #     for i in range(4):
@@ -100,7 +102,6 @@ class TwistedPuddle(object):
 
     def mainLoop(self):
         # self.shiftSpokes()
-        self.darkenLedMap()
         self.setBufferFromLedMap()
         self.writeBuffer()
 
