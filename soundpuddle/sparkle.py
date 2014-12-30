@@ -31,6 +31,7 @@ class TwistedPuddle(object):
         self.sparkle_fraction = 0.25
         self.sparkle_length = 4
         self.sparkle_fade_rate = 0.67
+        self.sparkle_fade_randomness = 0.3
 
         ## colors
         self.off_white = bytearray([195, 230, 175]) # g, r, b
@@ -110,8 +111,11 @@ class TwistedPuddle(object):
     def setBufferFromLedMap(self):
         for led_idx, led_val in enumerate(self.led_map):
             for k in range(3):
-                self.buff[led_idx * 3 + k] = self.off_white[k] if led_val else \
-                    int((self.buff[led_idx * 3 + k] - 128) / math.exp(self.sparkle_fade_rate) + 128)
+                if (led_val):
+                    self.buff[led_idx * 3 + k] = self.off_white[k]
+                else:
+                    sparkle_fade_rate = self.sparkle_fade_rate * (1 + self.sparkle_fade_randomness * (random.random() - .5))
+                    self.buff[led_idx * 3 + k] = int((self.buff[led_idx * 3 + k] - 128) / math.exp(sparkle_fade_rate) + 128)
 
     def writeBuffer(self):
         if (spi_connected):
