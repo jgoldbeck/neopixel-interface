@@ -32,7 +32,7 @@ class TwistedPuddle(object):
         self.sparkle_mean = 1.5
 
         ## colors
-        self.off_white = bytearray([255, 255, 235]) # g, r, b
+        self.off_white = bytearray([195, 230, 175]) # g, r, b
 
         self.led_map = [0] * self.nleds
         self.threshold = 0.
@@ -87,9 +87,11 @@ class TwistedPuddle(object):
 
 
     def setLedMapFromSoundVals(self): # magic numbers!
-        for i in range(len(self.soundVals)):
+        for i, value in enumerate(self.soundVals):
             for j in range(self.leds_per_spoke):
-                v = max(random.expovariate(1/self.sparkle_mean) - self.sparkle_cutoff, 0) / self.sparkle_mean
+                mean = (value - threshold) + self.sparkle_mean
+                print mean
+                v = max(random.expovariate(1/mean) - self.sparkle_cutoff, 0) / mean
                 v = v + self.sparkle_cutoff if v else 0
                 # v should have a mean of 1
                 self.led_map[i + self.nspokes * j] += v
