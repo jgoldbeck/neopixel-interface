@@ -80,9 +80,9 @@ class TwistedPuddle(object):
         for i, value in enumerate(self.soundVals):
             # threshold = self.adaptiveThreshold[i]
 
-            if value > 0
+            if (value > 0):
                 sparkle_fraction = self.sparkle_fraction * (1 + sparkle_fraction_amplification * value)
-            else
+            else:
                 sparkle_fraction = self.sparkle_fraction
 
             sparkle_length = self.sparkle_length
@@ -106,7 +106,7 @@ class TwistedPuddle(object):
                 for k in range(3):
                     self.buff[led_idx * 3 + k] = self.off_white[k]
             elif (self.buff[led_idx * 3] is 128 and self.buff[led_idx * 3 + 1] is 128 and self.buff[led_idx * 3 + 2] is 128):
-                # do nothing because it's already black
+               continue
             elif (sum(self.buff[led_idx * 3:led_idx * 3 + 3]) < (128 * 3) + self.brightness_min):
                 self.buff[led_idx * 3:led_idx * 3 + 3] = self.black
             else:
