@@ -78,9 +78,9 @@ class TwistedPuddle(object):
 
     def setLedMapFromSoundVals(self): # magic numbers!
         for i, value in enumerate(self.soundVals):
-            threshold = self.adaptiveThreshold[i]
 
             if (value > 0):
+                threshold = self.adaptiveThreshold[i]
                 sparkle_fraction = self.sparkle_fraction * (1 + self.sparkle_fraction_amplification * (value - threshold))
             else:
                 sparkle_fraction = self.sparkle_fraction
