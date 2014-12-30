@@ -26,6 +26,7 @@ class TwistedPuddle(object):
         self.nleds = 160
         self.nspokes = 8
         self.leds_per_spoke = self.nleds / self.nspokes
+        self.led_map = [0] * self.nleds
         self.threshold = 0.
         self.amplification = 128.
         self.buff = bytearray(self.nleds*3)
@@ -47,11 +48,11 @@ class TwistedPuddle(object):
         self.receiver.addCallback("/*", self.handleOSC)
 
 
-    def probabiliticWhite(self,value):
-        if (value > random.uniform(0, 3)): # magic number in here for now
-            return [0xFF, 0xFF, 0xFF] # white
-        else:
-            return [0x80, 0x80, 0x80] # black
+    # def probabiliticWhite(self,value):
+    #     if (value > random.uniform(0, 3)): # magic number in here for now
+    #         return [0xFF, 0xFF, 0xFF] # white
+    #     else:
+    #         return [0x80, 0x80, 0x80] # black
 
     def handleOSC(self, message, address):
         arg = message.getValues()
@@ -72,14 +73,22 @@ class TwistedPuddle(object):
                 threshold = self.adaptiveThreshold[i]
                 if value >= threshold:
                     for j in range(0, self.leds_per_spoke):
-                        k = i + self.nspokes * j
-                        self.buff[3 * k], self.buff[3 * k + 1], self.buff[3 * k + 2] = self.probabiliticWhite(3*(value - threshold));
+                        self.led_map[i + self.nspokes * j] += value / random.uniform(0, 2) # magic number here
+                        # self.buff[3 * k], self.buff[3 * k + 1], self.buff[3 * k + 2] = self.probabiliticWhite(3*(value - threshold));
                 self.adaptiveThreshold[i] = max(threshold - .02, value)
 
     # def shiftSpokes(self):
     #     for i in range(4):
     #         self.buff[(60*2*i):(60*2*i+60)] = self.launchpad[2*i] + self.buff[(60*2*i):(60*2*i+57)]
     #         self.buff[(60*(2*i+1)):(60*(2*i+1)+60)] = self.buff[(60*(2*i+1)+3):(60*(2*i+1)+60)] + self.launchpad[2*i+1]
+
+    def darkenLedMap(self):
+        self.led_map[:] = [min(0, x - 1) for x in self.led_map]
+
+    def setBufferFromLedMap(self):
+        for led_idx, led_val in enumerate(self.led_map):
+            for k in range(3):
+                self.buff[led_idx * 3 + k] = 0xFF if led_val else 0x80
 
     def writeBuffer(self):
         if (spi_connected):
@@ -88,6 +97,8 @@ class TwistedPuddle(object):
 
     def mainLoop(self):
         # self.shiftSpokes()
+        self.darkenLedMap()
+        self.setBufferFromLedMap()
         self.writeBuffer()
 
     # def generateColorTable(self):
