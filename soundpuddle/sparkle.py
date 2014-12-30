@@ -36,6 +36,7 @@ class TwistedPuddle(object):
 
         ## colors
         self.off_white = bytearray([195, 230, 175]) # g, r, b
+        self.off_white_avg = bytearray([185, 185, 185]) # g, r, b
 
         self.led_map = [0] * self.nleds
         self.spoke_sparkle_fade_randomness = [0] * self.nspokes
@@ -99,6 +100,9 @@ class TwistedPuddle(object):
                 if (led_val):
                     self.buff[led_idx * 3 + k] = self.off_white[k]
                 else:
+                    if (self.buff[led_idx * 3 + k] is self.off_white[k]):
+                        self.buff[led_idx * 3 + k] = self.off_white_avg[k] # even out colors before fading so not yellow at end when quiet
+
                     sparkle_fade_randomness = self.spoke_sparkle_fade_randomness[led_idx % self.nspokes]
                     sparkle_fade_rate = max(0, self.sparkle_fade_rate * (1 + sparkle_fade_randomness * (random.random() - .5)))
                     self.buff[led_idx * 3 + k] = int((self.buff[led_idx * 3 + k] - 128) * math.exp(-1 * sparkle_fade_rate) + 128)
