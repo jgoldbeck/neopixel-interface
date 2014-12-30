@@ -28,11 +28,12 @@ class TwistedPuddle(object):
         self.leds_per_spoke = self.nleds / self.nspokes
 
         ## sparkle magic numbers ##
-        self.sparkle_fraction = 0.25
-        self.sparkle_length = 4
-        self.sparkle_fade_rate = 0.67 # non-music responsive
-        self.sparkle_fade_randomness_amplification = 5 # music responsive
+        self.sparkle_fraction = 0.05
+        self.sparkle_length = 3
+        self.sparkle_fade_rate = 0.4 # non-music responsive
+        self.sparkle_fade_randomness_amplification = .8 # music responsive
         self.brightness_min = 7 # prevents the final color in the fade from being strongly colored when quiet
+        self.amplification = 350.
 
 
         ## colors
@@ -44,7 +45,6 @@ class TwistedPuddle(object):
 
         self.threshold = 0.
         self.soundVals = [0] * self.nspokes
-        self.amplification = 128.
         self.buff = bytearray(self.nleds*3)
         self.frameLength = .03
         for i in range(len(self.buff)):
