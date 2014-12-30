@@ -81,7 +81,7 @@ class TwistedPuddle(object):
             # threshold = self.adaptiveThreshold[i]
 
             if (value > 0):
-                sparkle_fraction = self.sparkle_fraction * (1 + sparkle_fraction_amplification * value)
+                sparkle_fraction = self.sparkle_fraction * (1 + self.sparkle_fraction_amplification * value)
             else:
                 sparkle_fraction = self.sparkle_fraction
 
