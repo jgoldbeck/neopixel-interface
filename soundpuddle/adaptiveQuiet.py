@@ -6,8 +6,15 @@ from txosc import async
 import numpy as np
 import Image
 import math
+import os
 
-spidev = file('/dev/spidev0.0', 'wb')
+
+try: # in case spidev not connected
+    spidev  = file('/dev/spidev0.0', "wb")
+    spi_connected = True
+except:
+    print 'SPIDEV not connected'
+    spi_connected = False
 
 class TwistedPuddle(object):
     def __init__(self, port):
@@ -74,11 +81,12 @@ class TwistedPuddle(object):
         spidev.flush()
 
     def mainLoop(self):
-        self.shiftSpokes()
-        self.writeBuffer()
+        if (spi_connected):
+            self.shiftSpokes()
+            self.writeBuffer()
 
     def generateColorTable(self):
-        im = Image.open('/home/ccrma/rainbow-starfish/soundpuddle/unfull_pastel.png').convert('RGB')
+        im = Image.open(os.path.join(os.path.dirname(__file__), 'unfull_pastel.png')).convert('RGB')
         height = im.size[1]
         pixel_strip = im.load()
         pixel_list = [pixel_strip[x, x] for x in range(height)]
