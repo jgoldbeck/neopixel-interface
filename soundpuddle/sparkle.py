@@ -4,7 +4,7 @@ from twisted.internet import reactor, task, threads
 from txosc import dispatch
 from txosc import async
 import numpy as np
-import Image
+# import Image
 import math
 import random
 import os
@@ -28,8 +28,8 @@ class TwistedPuddle(object):
         self.leds_per_spoke = self.nleds / self.nspokes
 
         ## sparkle magic numbers ##
-        self.sparkle_cutoff = 4
-        self.sparkle_mean = 1.5
+        self.sparkle_fraction = 0.1
+        self.sparkle_length = 5
 
         ## colors
         self.off_white = bytearray([195, 230, 175]) # g, r, b
@@ -88,14 +88,9 @@ class TwistedPuddle(object):
         for i, value in enumerate(self.soundVals):
             threshold = self.adaptiveThreshold[i]
 
-            mean = self.sparkle_mean
-            cutoff = self.sparkle_cutoff - (value - threshold)
-
             for j in range(self.leds_per_spoke):
-                v = max(random.expovariate(1/mean) - cutoff, 0) / mean
-                v = v + cutoff if v else 0
-                # v should have a mean of 1
-                self.led_map[i + self.nspokes * j] += v
+                if (random.random() > self.sparkle_fraction):
+                    self.led_map[i + self.nspokes * j] += self.sparkle_length
 
             self.adaptiveThreshold[i] = max(threshold - .01, value)
 
@@ -120,8 +115,8 @@ class TwistedPuddle(object):
 
     def mainLoop(self):
         # self.shiftSpokes()
-        self.setLedMapFromSoundVals()
         self.darkenLedMap()
+        self.setLedMapFromSoundVals()
         self.setBufferFromLedMap()
         self.writeBuffer()
 
