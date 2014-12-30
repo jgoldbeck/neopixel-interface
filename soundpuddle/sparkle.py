@@ -79,16 +79,17 @@ class TwistedPuddle(object):
             for i in range(0, self.nspokes):
                 v = arg[i*3] + arg[i*3+1] + arg[i*3+2]
                 value = math.log10(v*self.amplification)
-                threshold = self.adaptiveThreshold[i]
 
                 self.soundVals[i] = value
 
-                self.adaptiveThreshold[i] = max(threshold - .02, value)
 
 
     def setLedMapFromSoundVals(self): # magic numbers!
         for i, value in enumerate(self.soundVals):
-            mean = (value - self.adaptiveThreshold[i]) + self.sparkle_mean
+            threshold = self.adaptiveThreshold[i]
+
+            mean = (value - threshold) + self.sparkle_mean
+
             print mean
             for j in range(self.leds_per_spoke):
                 v = max(random.expovariate(1/mean) - self.sparkle_cutoff, 0) / mean
@@ -96,10 +97,9 @@ class TwistedPuddle(object):
                 # v should have a mean of 1
                 self.led_map[i + self.nspokes * j] += v
 
-        # if value >= threshold:
-        #     for j in range(0, self.leds_per_spoke):
-        #         self.led_map[i + self.nspokes * j] += random.uniform(0, max((value - threshold), 2)) # magic number here
-                # self.buff[3 * k], self.buff[3 * k + 1], self.buff[3 * k + 2] = self.probabiliticWhite(3*(value - threshold));
+            self.adaptiveThreshold[i] = max(threshold - .02, value)
+
+
     # def shiftSpokes(self):
     #     for i in range(4):
     #         self.buff[(60*2*i):(60*2*i+60)] = self.launchpad[2*i] + self.buff[(60*2*i):(60*2*i+57)]
