@@ -83,7 +83,7 @@ class TwistedPuddle(object):
     #         self.buff[(60*(2*i+1)):(60*(2*i+1)+60)] = self.buff[(60*(2*i+1)+3):(60*(2*i+1)+60)] + self.launchpad[2*i+1]
 
     def darkenLedMap(self):
-        self.led_map[:] = [min(0, x - 1) for x in self.led_map]
+        self.led_map[:] = [max(0, x - 1) for x in self.led_map]
 
     def setBufferFromLedMap(self):
         for led_idx, led_val in enumerate(self.led_map):
