@@ -88,9 +88,9 @@ class TwistedPuddle(object):
 
     def setLedMapFromSoundVals(self): # magic numbers!
         for i, value in enumerate(self.soundVals):
+            mean = (value - self.adaptiveThreshold[i]) + self.sparkle_mean
+            print mean
             for j in range(self.leds_per_spoke):
-                mean = (value - threshold) + self.sparkle_mean
-                print mean
                 v = max(random.expovariate(1/mean) - self.sparkle_cutoff, 0) / mean
                 v = v + self.sparkle_cutoff if v else 0
                 # v should have a mean of 1
