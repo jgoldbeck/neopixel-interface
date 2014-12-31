@@ -29,7 +29,7 @@ class TwistedPuddle(object):
 
         ## sparkle magic numbers ##
         self.sparkle_fraction = 0.05
-        self.sparkle_fraction_amplification = 3 # music responsive
+        self.sparkle_fraction_amplification = 2.5 # music responsive
         self.sparkle_length = 3
         self.sparkle_fade_rate = 0.4 # non-music responsive
         self.sparkle_fade_randomness_amplification = 0.6 # music responsive
