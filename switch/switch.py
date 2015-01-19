@@ -4,11 +4,11 @@ from twisted.internet import reactor, task
 from txosc import osc
 from txosc import dispatch
 from txosc import async
-# import RPi.GPIO as GPIO
+import RPi.GPIO as GPIO
 
-# GPIO.setmode(GPIO.BCM)
+GPIO.setmode(GPIO.BCM)
 
-# GPIO.setup(17, GPIO.IN, pull_up_down = GPIO.PUD_DOWN)
+GPIO.setup(17, GPIO.IN, pull_up_down = GPIO.PUD_DOWN)
 
 class SwitchSend(object):
     def __init__(self, port, host="127.0.0.1"):
@@ -18,7 +18,7 @@ class SwitchSend(object):
         self._client_port = reactor.listenUDP(0, self.client)
         self.switchValue = 1
         # LED output loop
-        # task.LoopingCall(self.checkSwitch).start(.1)
+        task.LoopingCall(self.checkSwitch).start(.1)
         task.LoopingCall(self.sendSwitch).start(1) # in case of pi reboot or signal drop send this regularly
 
     def checkSwitch(self):

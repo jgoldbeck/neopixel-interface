@@ -35,7 +35,6 @@ class TwistedPuddle(object):
 
     def handleSwitch(self, message, address):
         arg = message.getValues()
-        print 'Received main signal'
         self.switch_position = arg[0]
 
     def handleOSC(self, message, address):
