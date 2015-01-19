@@ -23,8 +23,8 @@ class TwistedPuddle(object):
         self._server_port = reactor.listenUDP(self.port, async.DatagramServerProtocol(self.receiver))
         print("Listening on osc.udp://localhost:%s" % (self.port))
 
-        self.switch_position = 'unknown'
-        task.LoopingCall(self.mainLoop).start(.3)
+        self.switch_position = None
+        task.LoopingCall(self.mainLoop).start(.03)
 
 
         self.receiver.addCallback("/main", self.handleSwitch)
@@ -42,7 +42,23 @@ class TwistedPuddle(object):
         arg = message.getValues()
 
     def mainLoop(self):
-        print self.switch_position
+        nleds = 160
+        nzeros = 5
+
+        if (self.switch_position):
+            r, g, b = 20, 0, 0
+        else:
+            r, g, b = 0, 0, 0
+
+        buff = bytearray(nleds*3)
+        for i in range(nleds):
+            buff[3*i] = 128+g
+            buff[3*i+1] = 128+r
+            buff[3*i+2] = 128+b
+
+        zeros = bytearray(nzeros)
+
+        spidev.write(buff+zeros)
 
 # TwistedOSC utility functions
 def get_path(message):
