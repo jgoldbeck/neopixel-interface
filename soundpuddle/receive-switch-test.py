@@ -41,8 +41,8 @@ class TwistedPuddle(object):
         arg = message.getValues()
 
     def mainLoop(self):
-        nleds = 160
-        nzeros = 5
+        nleds = 240
+        nzeros = 14
 
         if (self.switch_position):
             r, g, b = 20, 0, 0

@@ -18,12 +18,13 @@ class SwitchSend(object):
         self._client_port = reactor.listenUDP(0, self.client)
         self.switchValue = 1
         # LED output loop
-        task.LoopingCall(self.checkSwitch).start(.1)
+        GPIO.add_event_detect(17, GPIO.BOTH, callback=self.checkSwitch, bouncetime=100)
+        
         task.LoopingCall(self.sendSwitch).start(1) # in case of pi reboot or signal drop send this regularly
 
-    def checkSwitch(self):
+    def checkSwitch(self, *args):
         self.switchValue = GPIO.input(17)
-        self.sendSwitch() # to-do only do this in case of change
+        self.sendSwitch()
 
     def sendSwitch(self):
         self.client.send(osc.Message("/main", self.switchValue), (self.host, self.port))
