@@ -24,3 +24,6 @@
 example commands:
 sudo -H -E -u ccrma screen -d -m -S py /home/ccrma/Source/rainbow-starfish/soundpuddle/sparklebike.py
 sudo -H -E -u ccrma screen -d -m -S pd pd -nogui -audiodev 3 -channels 1 -nodac -audiobuf 15 /home/ccrma/Source/rainbow-starfish/soundpuddle/main.pd
+
+OUTSTANDING ISSUES:
+- adaptiveQuiet.py gets the error No Module Named Image
