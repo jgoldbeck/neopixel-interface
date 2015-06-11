@@ -2,7 +2,7 @@
 - Get internet working (for mac, try: https://galem.wordpress.com/2014/10/14/configuring-the-raspberry-pi-to-share-a-macs-internet-connection/ You can also do the DNS stuff on the Pi itself)
 
 - comment out the blacklist spi-bcm2708 entry in /etc/modprobe.d/raspi-blacklist.conf (if file exists)
-- sudo raspi-config (advanced -> enable SPI. also maybe keyboard stuff) (http://stackoverflow.com/questions/21028227/raspberry-pi-does-not-have-etc-modprobe-d-raspi-blacklist-conf)
+- sudo raspi-config (advanced -> enable SPI. also maybe keyboard localization stuff) (http://stackoverflow.com/questions/21028227/raspberry-pi-does-not-have-etc-modprobe-d-raspi-blacklist-conf)
 
 
 - sudo apt-get update
