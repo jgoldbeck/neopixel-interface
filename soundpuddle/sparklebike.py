@@ -72,7 +72,7 @@ class TwistedPuddle(object):
         # self.launchpad = [bytearray([0x80,0x80,0x80])]*8
         for i in range(0, self.nspokes):
             v = arg[i*3] + arg[i*3+1] + arg[i*3+2]
-            value = math.log10(v*self.amplification)
+            value = math.log10(v*self.amplification + 0.0000000000000000001)
 
             self.soundVals[i] = value
 
