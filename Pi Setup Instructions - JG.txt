@@ -20,7 +20,7 @@
 
 (if have spi issues, try adding "dtparam=spi=on" to your config.txt and reboot. maybe raspi-config didn’t work.)
 
-- to start less on boot, add commands to /etc/rc.local to run on startup. add them before the ip stuff
+- to start leds on boot, add commands to /etc/rc.local to run on startup. add them before the ip stuff
 example commands:
 sudo -H -E -u ccrma screen -d -m -S py /home/ccrma/Source/rainbow-starfish/soundpuddle/sparklebike.py
 sudo -H -E -u ccrma screen -d -m -S pd pd -nogui -audiodev 3 -channels 1 -nodac -audiobuf 15 /home/ccrma/Source/rainbow-starfish/soundpuddle/main.pd
