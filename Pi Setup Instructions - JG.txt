@@ -1,4 +1,5 @@
-- Install satellite ccrma (login is ccrma:temppwd) (RPi 2 version still in development https://groups.google.com/forum/#!topic/satelliteccrma/ahiIMR_w4T4)
+- If using Raspberry Pi 2, can likely just install Raspbian.
+- Otherwise, install satellite ccrma (login is ccrma:temppwd) (RPi 2 version still in development https://groups.google.com/forum/#!topic/satelliteccrma/ahiIMR_w4T4)
 - Get internet working (for mac, try: https://galem.wordpress.com/2014/10/14/configuring-the-raspberry-pi-to-share-a-macs-internet-connection/ You can also do the DNS stuff on the Pi itself)
 
 - comment out the blacklist spi-bcm2708 entry in /etc/modprobe.d/raspi-blacklist.conf (if file exists)
@@ -26,4 +27,4 @@ sudo -H -E -u ccrma screen -d -m -S py /home/ccrma/Source/rainbow-starfish/sound
 sudo -H -E -u ccrma screen -d -m -S pd pd -nogui -audiodev 3 -channels 1 -nodac -audiobuf 15 /home/ccrma/Source/rainbow-starfish/soundpuddle/main.pd
 
 OUTSTANDING ISSUES:
-- adaptiveQuiet.py gets the error No Module Named Image
+- adaptiveQuiet.py gets the error No Module Named Image. This is because PIL is no longer supported. Something to try is to install Pillow (https://pypi.python.org/pypi/Pillow/2.2.1) and then change `import Image` to `from PIL import Image`
