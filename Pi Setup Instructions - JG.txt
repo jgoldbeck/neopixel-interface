@@ -15,10 +15,8 @@
 - (in repo) sudo pip install -r requirements.txt
 (if can’t find pip, “sudo apt-get install python-setuptools” then “sudo easy_install pip”)
 
-- Connect a USB microphone
-
 - to start leds, in soundpuddle folder
-./runPD.sh
+./runPD.sh (needs to have connected a USB microphone before boot to get any signal out of this)
 ./sparkle.py
 
 (if have spi issues, try adding "dtparam=spi=on" to your config.txt and reboot. maybe raspi-config didn’t work.)
