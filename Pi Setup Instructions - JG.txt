@@ -15,6 +15,8 @@
 - (in repo) sudo pip install -r requirements.txt
 (if can’t find pip, “sudo apt-get install python-setuptools” then “sudo easy_install pip”)
 
+- Connect a USB microphone
+
 - to start leds, in soundpuddle folder
 ./runPD.sh
 ./sparkle.py
