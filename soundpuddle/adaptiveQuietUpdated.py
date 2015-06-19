@@ -27,6 +27,7 @@ class TwistedPuddle(object):
         self.lengthNumber = 90
         self.threshold = 0.
         self.amplification = 128.
+	self.gradientFileName = 'redder_pastel.png'
         self.buff = bytearray(self.nleds*3)
         self.frameLength = .03
         for i in range(len(self.buff)):
@@ -90,7 +91,7 @@ class TwistedPuddle(object):
             self.writeBuffer()
 
     def generateColorTable(self):
-        im = Image.open(os.path.join(os.path.dirname(__file__), 'unfull_pastel.png')).convert('RGB')
+        im = Image.open(os.path.join(os.path.dirname(__file__), self.gradientFileName)).convert('RGB')
         height = im.size[1]
         pixel_strip = im.load()
         pixel_list = [pixel_strip[x, x] for x in range(height)]
