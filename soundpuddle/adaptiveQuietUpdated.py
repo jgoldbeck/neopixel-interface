@@ -95,12 +95,12 @@ class TwistedPuddle(object):
 
         ## Down?
         #
-        # self.circ = 20;
+        self.circ = 20
         # print self.nleds / self.circ
-        # for i in range(1, self.nleds / self.circ):
-        #     print i
-        #     self.buff[i*self.circ: (i+1)*self.circ] = self.buff[(i-1)*self.circ: (i)*self.circ]
-        # self.buff[0:8] = self.launchpad
+        for i in range(1, self.nleds / self.circ):
+            # print i
+            self.buff[i*self.circ: (i+1)*self.circ] = self.buff[(i-1)*self.circ: (i)*self.circ]
+        self.buff[0:8] = self.launchpad
 
         # return
 
