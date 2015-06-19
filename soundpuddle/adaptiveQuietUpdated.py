@@ -28,7 +28,7 @@ class TwistedPuddle(object):
         self.threshold = 0.
         self.amplification = 128.
         self.gradientFiles = [
-            'deep_sea.png',
+            'orange.png',
             'pink_to_yellow.png',
             'unfull_pastel.png',
             'redder_pastel.png',
