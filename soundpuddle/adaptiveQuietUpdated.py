@@ -92,19 +92,30 @@ class TwistedPuddle(object):
 
     def shiftSpokes(self):
 
-        for i in range(8): #4
+
+        ## Down?
+        #
+        self.circ = 20;
+        for i in range(1,self.nleds / self.circ):
+            self.buff[i*self.circ: (i+1)*self.circ] = self.buff[(i-1)*self.circ: (i)*self.circ]
+        self.buff[0:8] = self.launchpad
+
+
+        # Multiple spokes
+
+        for i in range(4): #8
             #self.buff[(self.lengthNumber*i):(self.lengthNumber*i+self.lengthNumber)] = self.launchpad[i] + self.buff[(self.lengthNumber*i):(self.lengthNumber*i+(self.lengthNumber - 3))]
             #self.buff[(self.lengthNumber*(i)):(self.lengthNumber*(i)+self.lengthNumber)] = self.buff[(self.lengthNumber*(i)+3):(self.lengthNumber*(i)+self.lengthNumber)] + self.launchpad[i]
 
             ## Normal (crossways)
-            # self.buff[(self.lengthNumber*2*i):(self.lengthNumber*2*i+self.lengthNumber)] = self.launchpad[2*i] + self.buff[(self.lengthNumber*2*i):(self.lengthNumber*2*i+(self.lengthNumber - 3))]
-            # self.buff[(self.lengthNumber*(2*i+1)):(self.lengthNumber*(2*i+1)+self.lengthNumber)] = self.buff[(self.lengthNumber*(2*i+1)+3):(self.lengthNumber*(2*i+1)+self.lengthNumber)] + self.launchpad[2*i+1]
+            self.buff[(self.lengthNumber*2*i):(self.lengthNumber*2*i+self.lengthNumber)] = self.launchpad[2*i] + self.buff[(self.lengthNumber*2*i):(self.lengthNumber*2*i+(self.lengthNumber - 3))]
+            self.buff[(self.lengthNumber*(2*i+1)):(self.lengthNumber*(2*i+1)+self.lengthNumber)] = self.buff[(self.lengthNumber*(2*i+1)+3):(self.lengthNumber*(2*i+1)+self.lengthNumber)] + self.launchpad[2*i+1]
 
             ## Down??
-            try:
-                self.buff[(self.lengthNumber*i):(self.lengthNumber*i+self.lengthNumber)+20] = self.launchpad[i] + self.buff[(self.lengthNumber*i):(self.lengthNumber*i+(self.lengthNumber - 3))]
-            except:
-                print 'oops'
+            # try:
+            #     self.buff[(self.lengthNumber*i):(self.lengthNumber*i+self.lengthNumber)+20] = self.launchpad[i] + self.buff[(self.lengthNumber*i):(self.lengthNumber*i+(self.lengthNumber - 3))]
+            # except:
+            #     print 'oops'
 
     def writeBuffer(self):
         spidev.write(self.buff+self.zeros)
