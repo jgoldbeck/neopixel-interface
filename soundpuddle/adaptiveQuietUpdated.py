@@ -49,13 +49,13 @@ class TwistedPuddle(object):
         self.adaptiveThreshold = [0.] * 24
         self.quietTime = 0
         self.lastArg = [0, 0]
-        self.maxArgSum=[0,0]
+        self.maxArgSum = [0,0]
 
         # LED output loop
         self.outputLoop = task.LoopingCall(self.mainLoop)
 
         # On Off loop
-        self.onOffLength = 2
+        self.onOffLength = 999999999 # currently, forever
         self.loopOn = True;
         task.LoopingCall(self.onOffLoop).start(self.onOffLength)
 
@@ -81,7 +81,7 @@ class TwistedPuddle(object):
     def colorMap(self,value):
         index = int(value*128.)
         if index > 255:
-            index=255
+            index = 255
         return self.colorTable[index*3:index*3+3]
 
     def handleOSC(self, message, address):
