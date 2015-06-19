@@ -90,23 +90,19 @@ class TwistedPuddle(object):
                     self.launchpad[i%8] = self.colorMap(3*(value - threshold))
                 self.adaptiveThreshold[i] = max(threshold - .02, value)
 
-
     def shiftSpokes(self):
 
 
         ## Down?
         #
-        print 'ya'
-        self.circ = 20
-        print self.nleds / self.circ
-        for i in range(1, self.nleds / self.circ):
-            print i
-            self.buff[i*self.circ: (i+1)*self.circ] = self.buff[(i-1)*self.circ: (i)*self.circ]
+        # self.circ = 20;
+        # print self.nleds / self.circ
+        # for i in range(1, self.nleds / self.circ):
+        #     print i
+        #     self.buff[i*self.circ: (i+1)*self.circ] = self.buff[(i-1)*self.circ: (i)*self.circ]
+        # self.buff[0:8] = self.launchpad
 
-        for j in range(0, 8):
-            self.buff[j] = self.launchpad[j]
-
-            return
+        # return
 
 
         # Multiple spokes
@@ -152,7 +148,7 @@ class TwistedPuddle(object):
             column[y3]     = gamma[value[1]]
             column[y3 + 1] = gamma[value[0]]
             column[y3 + 2] = gamma[value[2]]
-            #print (column[y3],column[y3+1],column[y3+2])
+            print (column[y3],column[y3+1],column[y3+2])
 
         return column
 
