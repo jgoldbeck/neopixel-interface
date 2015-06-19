@@ -28,26 +28,23 @@ class TwistedPuddle(object):
         self.threshold = 0.
         self.amplification = 128.
         self.gradientFiles = [
-            'deep_sea.png',
+            'deep_sea.png'
             'pink_to_yellow.png',
             'unfull_pastel.png',
             'redder_pastel.png',
             'purple_to_blue.png'
         ]
-
+        self.currentGradientFileIndex = 0;
+        self.gradientFileName = self.gradientFiles[0];
 
         self.buff = bytearray(self.nleds*3)
         self.frameLength = .03
         self.colorLength = 60 * 15
-
-
-        # Color file loop
-        task.LoopingCall(self.colorLoop).start(self.colorLength)
-
         for i in range(len(self.buff)):
             self.buff[i] = 0x80
         self.zeros = bytearray(5)
         self.launchpad = [bytearray([0x80,0x80,0x80])]*8
+        self.colorTable = self.generateColorTable()
         self.adaptiveThreshold = [0.] * 24
         self.quietTime = 0
         self.lastArg = [0, 0]
@@ -56,14 +53,16 @@ class TwistedPuddle(object):
         # LED output loop
         task.LoopingCall(self.mainLoop).start(self.frameLength)
 
+        # Color file loop
+        task.LoopingCall(self.colorLoop).start(self.colorLength)
 
         # all top level osc commands
         self.receiver.addCallback("/*", self.handleOSC)
 
     def colorLoop(self):
+        self.colorTable = self.generateColorTable()
         self.currentGradientFileIndex = (self.currentGradientFileIndex + 1) % len(self.gradientFiles)
         self.gradientFileName = self.gradientFiles[self.currentGradientFileIndex];
-        self.colorTable = self.generateColorTable()
 
     def colorMap(self,value):
         index = int(value*128.)
