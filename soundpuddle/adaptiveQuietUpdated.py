@@ -90,6 +90,7 @@ class TwistedPuddle(object):
                     self.launchpad[i%8] = self.colorMap(3*(value - threshold))
                 self.adaptiveThreshold[i] = max(threshold - .02, value)
 
+
     def shiftSpokes(self):
 
 
@@ -102,8 +103,8 @@ class TwistedPuddle(object):
             print i
             self.buff[i*self.circ: (i+1)*self.circ] = self.buff[(i-1)*self.circ: (i)*self.circ]
 
-    	for j in range(0, 8):
-    		self.buff[j] = char(self.launchpad[j])
+        for j in range(0, 8):
+            self.buff[j] = char(self.launchpad[j])
 
             return
 
