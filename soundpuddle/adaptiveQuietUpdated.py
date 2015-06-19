@@ -101,9 +101,11 @@ class TwistedPuddle(object):
             # self.buff[(self.lengthNumber*(2*i+1)):(self.lengthNumber*(2*i+1)+self.lengthNumber)] = self.buff[(self.lengthNumber*(2*i+1)+3):(self.lengthNumber*(2*i+1)+self.lengthNumber)] + self.launchpad[2*i+1]
 
             ## Down??
-            try
+            try:
                 self.buff[(self.lengthNumber*2*i + 20):(self.lengthNumber*2*i+self.lengthNumber) + 20] = self.launchpad[2*i] + self.buff[(self.lengthNumber*2*i):(self.lengthNumber*2*i+(self.lengthNumber - 3))]
                 self.buff[(self.lengthNumber*(2*i+1) + 20):(self.lengthNumber*(2*i+1)+self.lengthNumber) + 20] = self.buff[(self.lengthNumber*(2*i+1)+3):(self.lengthNumber*(2*i+1)+self.lengthNumber)] + self.launchpad[2*i+1]
+            except:
+                print 'oops'
 
     def writeBuffer(self):
         spidev.write(self.buff+self.zeros)
