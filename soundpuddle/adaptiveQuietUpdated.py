@@ -27,7 +27,7 @@ class TwistedPuddle(object):
         self.lengthNumber = 90
         self.threshold = 0.
         self.amplification = 128.
-        self.gradientFileName = 'purple_to_blue.png'
+        self.gradientFileName = 'redder_pastel.png'
         self.buff = bytearray(self.nleds*3)
         self.frameLength = .03
         for i in range(len(self.buff)):
