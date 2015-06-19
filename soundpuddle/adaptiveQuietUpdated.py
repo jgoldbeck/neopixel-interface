@@ -71,12 +71,14 @@ class TwistedPuddle(object):
         self.gradientFileName = self.gradientFiles[self.currentGradientFileIndex];
 
     def onOffLoop(self):
-        if(self.outputLoop.running):
+        if(self.loopOn):
             print 'stop'
             self.outputLoop.stop()
+            self.loopOn = False
         else:
             print 'start'
             self.outputLoop.start()
+            self.loopOn = True
 
     def colorMap(self,value):
         index = int(value*128.)
