@@ -23,7 +23,7 @@ class TwistedPuddle(object):
         self._server_port = reactor.listenUDP(self.port, async.DatagramServerProtocol(self.receiver))
         print("Listening on osc.udp://localhost:%s" % (self.port))
 
-        self.nleds = 160
+        self.nleds = 240
         self.lengthNumber = 80
         self.threshold = 0.
         self.amplification = 128.
