@@ -24,6 +24,7 @@ class TwistedPuddle(object):
         print("Listening on osc.udp://localhost:%s" % (self.port))
 
         self.nleds = 160
+        self.lengthNumber = 80
         self.threshold = 0.
         self.amplification = 128.
         self.buff = bytearray(self.nleds*3)
@@ -72,10 +73,10 @@ class TwistedPuddle(object):
                 self.adaptiveThreshold[i] = max(threshold - .02, value)
 
     def shiftSpokes(self):
-        someNum = 70;
+
         for i in range(4):
-            self.buff[(someNum*2*i):(someNum*2*i+someNum)] = self.launchpad[2*i] + self.buff[(someNum*2*i):(someNum*2*i+(someNum - 3))]
-            self.buff[(someNum*(2*i+1)):(someNum*(2*i+1)+someNum)] = self.buff[(someNum*(2*i+1)+3):(someNum*(2*i+1)+someNum)] + self.launchpad[2*i+1]
+            self.buff[(self.lengthNumber*2*i):(self.lengthNumber*2*i+self.lengthNumber)] = self.launchpad[2*i] + self.buff[(self.lengthNumber*2*i):(self.lengthNumber*2*i+(self.lengthNumber - 3))]
+            self.buff[(self.lengthNumber*(2*i+1)):(self.lengthNumber*(2*i+1)+self.lengthNumber)] = self.buff[(self.lengthNumber*(2*i+1)+3):(self.lengthNumber*(2*i+1)+self.lengthNumber)] + self.launchpad[2*i+1]
 
     def writeBuffer(self):
         spidev.write(self.buff+self.zeros)
