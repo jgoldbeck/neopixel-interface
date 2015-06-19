@@ -74,8 +74,8 @@ class TwistedPuddle(object):
     def shiftSpokes(self):
         someNum = 70;
         for i in range(4):
-            self.buff[(sumNum*2*i):(sumNum*2*i+sumNum)] = self.launchpad[2*i] + self.buff[(sumNum*2*i):(sumNum*2*i+(sumNum - 3))]
-            self.buff[(sumNum*(2*i+1)):(sumNum*(2*i+1)+sumNum)] = self.buff[(sumNum*(2*i+1)+3):(sumNum*(2*i+1)+sumNum)] + self.launchpad[2*i+1]
+            self.buff[(someNum*2*i):(someNum*2*i+someNum)] = self.launchpad[2*i] + self.buff[(someNum*2*i):(someNum*2*i+(someNum - 3))]
+            self.buff[(someNum*(2*i+1)):(someNum*(2*i+1)+someNum)] = self.buff[(someNum*(2*i+1)+3):(someNum*(2*i+1)+someNum)] + self.launchpad[2*i+1]
 
     def writeBuffer(self):
         spidev.write(self.buff+self.zeros)
