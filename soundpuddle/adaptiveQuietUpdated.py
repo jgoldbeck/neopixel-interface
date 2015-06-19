@@ -24,7 +24,7 @@ class TwistedPuddle(object):
         print("Listening on osc.udp://localhost:%s" % (self.port))
 
         self.nleds = 240
-        self.lengthNumber = 80
+        self.lengthNumber = 90
         self.threshold = 0.
         self.amplification = 128.
         self.buff = bytearray(self.nleds*3)
@@ -74,7 +74,9 @@ class TwistedPuddle(object):
 
     def shiftSpokes(self):
 
-        for i in range(4):
+        for i in range(4): #8
+            #self.buff[(self.lengthNumber*i):(self.lengthNumber*i+self.lengthNumber)] = self.launchpad[i] + self.buff[(self.lengthNumber*i):(self.lengthNumber*i+(self.lengthNumber - 3))]
+            #self.buff[(self.lengthNumber*(i)):(self.lengthNumber*(i)+self.lengthNumber)] = self.buff[(self.lengthNumber*(i)+3):(self.lengthNumber*(i)+self.lengthNumber)] + self.launchpad[i]
             self.buff[(self.lengthNumber*2*i):(self.lengthNumber*2*i+self.lengthNumber)] = self.launchpad[2*i] + self.buff[(self.lengthNumber*2*i):(self.lengthNumber*2*i+(self.lengthNumber - 3))]
             self.buff[(self.lengthNumber*(2*i+1)):(self.lengthNumber*(2*i+1)+self.lengthNumber)] = self.buff[(self.lengthNumber*(2*i+1)+3):(self.lengthNumber*(2*i+1)+self.lengthNumber)] + self.launchpad[2*i+1]
 
