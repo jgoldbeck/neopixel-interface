@@ -52,7 +52,12 @@ class TwistedPuddle(object):
         self.maxArgSum=[0,0]
 
         # LED output loop
-        task.LoopingCall(self.mainLoop).start(self.frameLength)
+        self.outputLoop = task.LoopingCall(self.mainLoop).start(self.frameLength)
+
+        # On Off loop
+        self.onOffLength = 2
+        self.loopOn = True;
+        task.LoopingCall(self.onOffLoop).start(self.onOffLength)
 
         # Color file loop
         task.LoopingCall(self.colorLoop).start(self.colorLength)
@@ -64,6 +69,12 @@ class TwistedPuddle(object):
         self.colorTable = self.generateColorTable()
         self.currentGradientFileIndex = (self.currentGradientFileIndex + 1) % len(self.gradientFiles)
         self.gradientFileName = self.gradientFiles[self.currentGradientFileIndex];
+
+    def onOffLoop(self):
+        if(self.outputLoop.running):
+            self.outputLoop.stop()
+        else:
+            self.outputLoop.start()
 
     def colorMap(self,value):
         index = int(value*128.)
