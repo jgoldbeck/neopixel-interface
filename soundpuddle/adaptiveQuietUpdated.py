@@ -104,7 +104,7 @@ class TwistedPuddle(object):
             self.buff[i*self.circ: (i+1)*self.circ] = self.buff[(i-1)*self.circ: (i)*self.circ]
 
         for j in range(0, 8):
-            self.buff[j] = char(self.launchpad[j])
+            self.buff[j] = self.launchpad[j]
 
             return
 
