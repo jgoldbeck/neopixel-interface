@@ -1,0 +1,30 @@
+- If using Raspberry Pi 2, can likely just install Raspbian.
+- Otherwise, install satellite ccrma so that USB audio devices work (login is ccrma:temppwd) (RPi 2 version still in development https://groups.google.com/forum/#!topic/satelliteccrma/ahiIMR_w4T4)
+- Get internet working (for mac, try: https://galem.wordpress.com/2014/10/14/configuring-the-raspberry-pi-to-share-a-macs-internet-connection/ You can also do the DNS stuff on the Pi itself)
+
+- comment out the blacklist spi-bcm2708 entry in /etc/modprobe.d/raspi-blacklist.conf (if file exists)
+- sudo raspi-config (advanced -> enable SPI. also maybe keyboard localization stuff) (http://stackoverflow.com/questions/21028227/raspberry-pi-does-not-have-etc-modprobe-d-raspi-blacklist-conf)
+
+
+- sudo apt-get update
+- sudo apt-get install python-dev
+(If dns doesn’t work right, this might help http://unix.stackexchange.com/questions/128220/how-do-i-set-my-dns-on-ubuntu-14-04)
+
+- Clone repo (git clone https://github.com/joegoldbeck/rainbow-starfish.git)
+- sudo pip install twisted
+- (in repo) sudo pip install -r requirements.txt
+(if can’t find pip, “sudo apt-get install python-setuptools” then “sudo easy_install pip”)
+
+- to start leds, in soundpuddle folder
+./runPD.sh (needs to have connected a USB microphone before boot to get any signal out of this)
+./sparkle.py
+
+(if have spi issues, try adding "dtparam=spi=on" to your config.txt and reboot. maybe raspi-config didn’t work.)
+
+- to start leds on boot, add commands to /etc/rc.local to run on startup. add them before the ip stuff
+example commands:
+sudo -H -E -u ccrma screen -d -m -S py /home/ccrma/Source/rainbow-starfish/soundpuddle/sparklebike.py
+sudo -H -E -u ccrma screen -d -m -S pd pd -nogui -audiodev 3 -channels 1 -nodac -audiobuf 15 /home/ccrma/Source/rainbow-starfish/soundpuddle/main.pd
+
+OUTSTANDING ISSUES:
+- adaptiveQuiet.py gets the error No Module Named Image. This is because PIL is no longer supported. Something to try is to install Pillow (https://pypi.python.org/pypi/Pillow/2.2.1) and then change `import Image` to `from PIL import Image`
