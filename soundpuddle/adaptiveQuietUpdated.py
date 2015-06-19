@@ -38,7 +38,7 @@ class TwistedPuddle(object):
 
         self.buff = bytearray(self.nleds*3)
         self.frameLength = .03
-        self.colorLength = 5
+        self.colorLength = 3
         for i in range(len(self.buff)):
             self.buff[i] = 0x80
         self.zeros = bytearray(5)
@@ -54,14 +54,17 @@ class TwistedPuddle(object):
 
         # Color file loop
         task.LoopingCall(self.colorLoop).start(self.colorLength)
-        self.colorFileIndex = 0;
 
         # all top level osc commands
         self.receiver.addCallback("/*", self.handleOSC)
 
     def colorLoop(self):
+	print 'happens'
         self.currentGradientFileIndex = (self.currentGradientFileIndex + 1) % len(self.gradientFiles)
+	print self.currentGradientFileIndex
+	print len(self.gradientFiles)
         self.gradientFileName = self.gradientFiles[self.currentGradientFileIndex];
+	self.colorTable = self.generateColorTable()
 
     def colorMap(self,value):
         index = int(value*128.)
