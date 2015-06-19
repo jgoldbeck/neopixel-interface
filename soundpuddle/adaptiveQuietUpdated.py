@@ -48,7 +48,6 @@ class TwistedPuddle(object):
             self.buff[i] = 0x80
         self.zeros = bytearray(5)
         self.launchpad = [bytearray([0x80,0x80,0x80])]*8
-        self.colorTable = self.generateColorTable()
         self.adaptiveThreshold = [0.] * 24
         self.quietTime = 0
         self.lastArg = [0, 0]
