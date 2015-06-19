@@ -59,12 +59,9 @@ class TwistedPuddle(object):
         self.receiver.addCallback("/*", self.handleOSC)
 
     def colorLoop(self):
-	print 'happens'
         self.currentGradientFileIndex = (self.currentGradientFileIndex + 1) % len(self.gradientFiles)
-	print self.currentGradientFileIndex
-	print len(self.gradientFiles)
         self.gradientFileName = self.gradientFiles[self.currentGradientFileIndex];
-	self.colorTable = self.generateColorTable()
+        self.colorTable = self.generateColorTable()
 
     def colorMap(self,value):
         index = int(value*128.)
@@ -98,8 +95,15 @@ class TwistedPuddle(object):
         for i in range(4): #8
             #self.buff[(self.lengthNumber*i):(self.lengthNumber*i+self.lengthNumber)] = self.launchpad[i] + self.buff[(self.lengthNumber*i):(self.lengthNumber*i+(self.lengthNumber - 3))]
             #self.buff[(self.lengthNumber*(i)):(self.lengthNumber*(i)+self.lengthNumber)] = self.buff[(self.lengthNumber*(i)+3):(self.lengthNumber*(i)+self.lengthNumber)] + self.launchpad[i]
-            self.buff[(self.lengthNumber*2*i):(self.lengthNumber*2*i+self.lengthNumber)] = self.launchpad[2*i] + self.buff[(self.lengthNumber*2*i):(self.lengthNumber*2*i+(self.lengthNumber - 3))]
-            self.buff[(self.lengthNumber*(2*i+1)):(self.lengthNumber*(2*i+1)+self.lengthNumber)] = self.buff[(self.lengthNumber*(2*i+1)+3):(self.lengthNumber*(2*i+1)+self.lengthNumber)] + self.launchpad[2*i+1]
+
+            ## Normal (crossways)
+            # self.buff[(self.lengthNumber*2*i):(self.lengthNumber*2*i+self.lengthNumber)] = self.launchpad[2*i] + self.buff[(self.lengthNumber*2*i):(self.lengthNumber*2*i+(self.lengthNumber - 3))]
+            # self.buff[(self.lengthNumber*(2*i+1)):(self.lengthNumber*(2*i+1)+self.lengthNumber)] = self.buff[(self.lengthNumber*(2*i+1)+3):(self.lengthNumber*(2*i+1)+self.lengthNumber)] + self.launchpad[2*i+1]
+
+            ## Down??
+            try
+                self.buff[(self.lengthNumber*2*i + 20):(self.lengthNumber*2*i+self.lengthNumber) + 20] = self.launchpad[2*i] + self.buff[(self.lengthNumber*2*i):(self.lengthNumber*2*i+(self.lengthNumber - 3))]
+                self.buff[(self.lengthNumber*(2*i+1) + 20):(self.lengthNumber*(2*i+1)+self.lengthNumber) + 20] = self.buff[(self.lengthNumber*(2*i+1)+3):(self.lengthNumber*(2*i+1)+self.lengthNumber)] + self.launchpad[2*i+1]
 
     def writeBuffer(self):
         spidev.write(self.buff+self.zeros)
