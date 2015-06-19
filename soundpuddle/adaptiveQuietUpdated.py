@@ -35,12 +35,15 @@ class TwistedPuddle(object):
             'purple_to_blue.png'
         ]
 
-        # Color file loop
-        task.LoopingCall(self.colorLoop).start(self.colorLength)
 
         self.buff = bytearray(self.nleds*3)
         self.frameLength = .03
         self.colorLength = 60 * 15
+
+
+        # Color file loop
+        task.LoopingCall(self.colorLoop).start(self.colorLength)
+
         for i in range(len(self.buff)):
             self.buff[i] = 0x80
         self.zeros = bytearray(5)
