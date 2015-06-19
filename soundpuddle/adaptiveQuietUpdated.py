@@ -34,8 +34,9 @@ class TwistedPuddle(object):
             'redder_pastel.png',
             'purple_to_blue.png'
         ]
-        self.currentGradientFileIndex = 0;
-        self.gradientFileName = self.gradientFiles[0];
+
+        # Color file loop
+        task.LoopingCall(self.colorLoop).start(self.colorLength)
 
         self.buff = bytearray(self.nleds*3)
         self.frameLength = .03
@@ -53,8 +54,6 @@ class TwistedPuddle(object):
         # LED output loop
         task.LoopingCall(self.mainLoop).start(self.frameLength)
 
-        # Color file loop
-        task.LoopingCall(self.colorLoop).start(self.colorLength)
 
         # all top level osc commands
         self.receiver.addCallback("/*", self.handleOSC)
