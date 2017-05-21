@@ -1,26 +1,26 @@
-#N canvas 864 411 1020 577 10;
-#X obj 36 51 rfft~;
-#X obj 37 80 *~;
-#X obj 64 80 *~;
-#X obj 37 118 +~;
-#X obj 36 146 tabsend~ magnitude;
-#X obj -197 -17 table magnitude;
-#X obj 238 35 tabdump magnitude;
-#X obj 238 -16 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+#N canvas 459 415 1421 577 10;
+#X obj 324 150 rfft~;
+#X obj 325 179 *~;
+#X obj 352 179 *~;
+#X obj 325 217 +~;
+#X obj 324 245 tabsend~ magnitude;
+#X obj 91 82 table magnitude;
+#X obj 526 134 tabdump magnitude;
+#X obj 526 83 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
 1;
-#X obj 36 -24 inlet~;
-#X obj 428 -33 inlet;
-#X text 469 -36 bang to initialize;
-#X text 221 85 discard;
-#X obj 272 249 sendOSC;
-#X obj 272 185 list trim;
-#X obj 272 166 list prepend send;
-#X msg 297 226 connect localhost 8666;
-#X obj 272 147 list prepend /fft;
-#X obj -196 -44 block~ 1024;
-#X obj 238 66 list split 5;
-#X obj 272 110 list split 24;
-#X obj 238 7 metro 23.22;
+#X obj 324 75 inlet~;
+#X obj 716 66 inlet;
+#X text 757 63 bang to initialize;
+#X text 509 184 discard;
+#X obj 560 348 sendOSC;
+#X obj 560 284 list trim;
+#X obj 560 265 list prepend send;
+#X msg 585 325 connect localhost 8666;
+#X obj 560 246 list prepend /fft;
+#X obj 92 55 block~ 1024;
+#X obj 526 165 list split 5;
+#X obj 560 209 list split 24;
+#X obj 526 106 metro 23.22;
 #N canvas 3 55 450 300 (subpatch) 0;
 #X array window 512 float 3;
 #A 0 3.76491e-05 0.000150591 0.000338808 0.000602272 0.000940943 0.00135477
@@ -90,12 +90,9 @@
 0.0045487 0.00376024 0.00304652 0.00240764 0.0018437 0.00135479 0.000940958
 0.000602283 0.000338815 0.000150595 3.76511e-05 2.27997e-14;
 #X coords 0 1 511 -1 200 140 1;
-#X restore -197 22 graph;
-#X obj 36 28 *~;
-#X obj 52 7 tabreceive~ window;
-#X floatatom 646 43 5 0 0 0 - - -, f 5;
-#X floatatom 646 -17 5 0 0 0 - - -, f 5;
-#X obj 646 10 tabread magnitude;
+#X restore 91 121 graph;
+#X obj 324 127 *~;
+#X obj 340 106 tabreceive~ window;
 #X connect 0 0 1 0;
 #X connect 0 0 1 1;
 #X connect 0 1 2 0;
@@ -117,5 +114,3 @@
 #X connect 20 0 6 0;
 #X connect 22 0 0 0;
 #X connect 23 0 22 1;
-#X connect 25 0 26 0;
-#X connect 26 0 24 0;
